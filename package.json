@@ -1,0 +1,11 @@
+{
+  "name": "distrifull",
+  "version": "1.0.0",
+  "description": "Manual de usuario de la pagina web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

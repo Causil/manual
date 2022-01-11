@@ -1,0 +1,1059 @@
+\chapter{Una cota superior para el error}
+El objetivo principal es encontrar una cota superior para el error $\|u-u_{h}\|_{1}$, que dependa de los datos dados de la ecuaci\'on diferencia cl\'asica  y la soluci\'on $u_{h}$ del problema discreto, para llevar acabo nuestro objetivo nos hemos guiado de Verf\"urth \cite[pp. 1-12]{Rudiger2013} que muestra una cota superior para el problema cl\'asico con condici\'on de frontera tipo mixta, con cierto \'enfasis de Braess \cite[pp. 172-175]{Dietrich2007} particularizando para el problema cl\'asico con condici\'on de frontera tipo Dirichlet. De \cite{Ciarlet1978} hacemos un breve repaso del m\'etodo de los elementos finitos, para lograr una afinidad en la construcci\'on de los espacios de dimensi\'on finita que tienen un rol muy importante en lo que resta de la monograf\'ia. 
+
+\section{M\'etodo de los elementos finitos (FEM)}
+En el capitulo anterior los problemas cl\'asicos de la ecuaci\'on de Poisson, se ha podido formular en un sistema matricial, el cual resolveremos sobre espacios de funciones de dimensi\'on finita utilizando el m\'etodo de elementos finitos.
+
+El m\'etodo de los elementos finitos seg\'un Ciarlet \cite[pp. 55-60]{Ciarlet1978}, en su forma m\'as simple es un proceso especifico de construcci\'on de subespacios $S_{h}$, que se denomina espacio de elementos finitos, esta construcci\'on es caracterizada por tres aspectos b\'asicos, que son (FEM 1), (FEM 2) y (FEM 3).
+
+\begin{definicion}
+Un $n$-s\'implex es la envoltura convexa de un conjunto $K\subset \R^{n}$ de $(n + 1)$ puntos independientes, definidos como $N_{i}=(N_{i,j})_{j=1}^{n} \in \R^{n}$ con $1\leq i\leq n+1$, son llamados los v\'ertices del $n$-s\'implex. Para cualquier entero $m$ con $ 0\leq m \leq n$, una $m$-cara del $n$-s\'implex $K$,  es un $m$-s\'implex, cuyos $m + 1$ v\'ertices son tambi\'en v\'ertices de $K$. En particular una $(n-1)$-cara es simplemente llamada una cara y $1$-cara es simplemente llamado borde o lado.  Definimos el siguiente arreglo matricial 
+\begin{equation}
+C\mcn=\begin{pmatrix}
+N_{1,1}& N_{1,2} & \ldots & N_{1,n} & 1 \\
+N_{2,1}& N_{2,2} & \ldots & N_{2,n} & 1 \\
+\vdots &  \vdots & \ldots & \vdots  & 1 \\
+N_{n+1,1}& N_{n+11,2} & \ldots & N_{n+1,n} & 1 \\
+\end{pmatrix},
+\end{equation}
+cada fila de $C\mcn$ hasta la columna n, son las coordenadas de los v\'ertices del $n$-s\'implex.
+
+Las coordenadas baricentricas, son funciones $\lambda_{i}(x_{1},x_{2},\ldots,x_{n})$ definidas en cada v\'ertice del $n$-s\'implex tal que 
+\begin{equation}
+\begin{split}
+\lambda_{i}(x_{1},x_{2},\cdots,x_{n})&=\sum_{j=1}^{n} b_{j,i}x_{j} + b_{n+1,1}, \quad \text{ con } 1\leq i\leq n+1,\\
+\lambda_{i}(N_{j})&= \delta_{ij}=\begin{cases}
+1, \text{ si }i=j\\
+0, \text{ si }i\neq j
+\end{cases} \text{ con } 1\leq i,j\leq n+1,
+\end{split}
+\end{equation}
+donde $B=(b_{i,j})_{i,j=1}^{n+1}$ es la matriz inversa de $C\mcn$.
+\end{definicion}
+
+Consideremos el espacio $\R^{n}$ con su base can\'onica $(e_{i})_{i=1}^{n}$ y definimos el espacio $\mcp_{k}(\R^{n})\colon = \{ p: \R^{n}\to \R \mid\text{ p es un polinomio con } grad(p)\leq k \}$, un $p\in\mcp_{k}(\R^{n})$ tiene la siguiente forma
+\begin{equation}\label{FEM1}
+\begin{split}
+p\colon (x_{1},\cdots,x_{n}) \in \R^{n} &\to p(x_{1},\cdots,x_{n}) = \sum_{|\alpha|\leq k} \rho_{\alpha_{1}\alpha_{2}\cdots\alpha_{n}}x_{1}^{\alpha_{1}}x_{2}^{\alpha_{2}}\cdots x_{n}^{\alpha_{n}} ,
+\end{split}
+\end{equation}
+la dimensi\'on de $\mcp_{k}$ es 
+\[ dim\mcp_{k} = \binom{n+k}{k} \]
+\begin{ejemplo}\label{FEM2}
+Considerando $k=1$ y $n=2$ determinemos $\mcp_{1}(\R^{2})$, el 2-s\'implex con v\'ertices $N_{1}=(0,0), N_{2}=(1,0), N_{3}=(1/2,1)$ y las coordenadas baricentricas.
+
+para determinar la forma de $p\in\mcp_{1}(\R^{2})$, es decir el polinomio $p:\R^{2}\to \R$, los posibles $\rho$ son $\rho = (0,0) , \rho = (1,0)$ y $\rho=(0,1)$, en cada caso $|\alpha|\leq 1$ as\'i 
+\begin{equation*}
+\begin{split}
+p(x_{1},x_{2})&=\sum_{|\rho|\leq 1} {\rho_{1}\rho_{2}}x_{1}^{\rho_{1}} x_{2}^{\rho_{2}},\\
+&=\rho_{1}\rho_{0} x^{0}_{1}x^{0}_{2} + \rho_{1}\rho_{1}x_{1}x^{0}_{2} + \rho_{0}\rho_{1}x^{0}_{1}x^{1}_{2},\\
+\end{split}
+\end{equation*} 
+consideremos $\gamma=\rho_{0}\rho_{1}$, $\alpha = \rho_{1}\rho_{0}$ y $\beta=\rho_{0}\rho_{1}$, as\'i 
+\[ \mcp_{1}(\R^{n})\colon = \{ \alpha_{i} x_{1} + \beta_{i} x_{2} + \gamma_{i} \mid \gamma_{i},\alpha_{i},\beta_{i}\in \R    \}. \]
+
+El 2-s\'implex :
+\begin{figure}[h!]\label{figura1}
+	\begin{center}
+	\begin{tikzpicture}
+	[place/.style={circle,draw=blue!100,fill=blue!20,thick,
+		inner sep=0pt,minimum size=1mm},
+	place1/.style={circle,draw=black!100,fill=black!100,thick,
+		inner sep=0pt,minimum size=1mm},
+	place2/.style={circle,draw=red!100,fill=red!70,thick,
+		inner sep=0pt, minimum size=1mm},
+	place3/.style={circle,draw=red!100,fill=red!20,thick,
+		inner sep=0pt, minimum size=0.7mm},scale=1.5]
+	\draw[black!50,line width=1pt]
+
+
+(0,0)node[place]{}--(1,0)node[place1]{} -- (0.5,1)node[place1]{} -- (0,0)node[place1]{} ;
+	
+	%funcionesbaricentricas 
+	\node at (-0.2,-0.2) [] {$\lambda_{1},N_1$};
+	\node at (1.2,-0.2) [] {$\lambda_{2},N_{2}$};
+	\node at (0.5,1.3) [] {$\lambda_{3},N_3$};
+	\end{tikzpicture}
+\end{center}
+\caption{Representaci\'on de las coordenadas baricentricas y nodos en el 2-s\'implex }
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\end{figure}
+
+La matrices $C\mcn$ y $B$ son 
+\begin{equation*}
+\begin{split}
+C\mcn=\begin{pmatrix}
+0 & 0 & 1\\
+1 & 0 & 1 \\
+0.5 & 1 & 1
+\end{pmatrix}
+\quad \text{ y }\quad B= \begin{pmatrix}
+-1 & 1 & 0\\
+-0.5 & -0.5 & 1 \\
+1 & 0 & 0
+\end{pmatrix},
+\end{split}
+\end{equation*}  
+las coordenadas baricentricas son 
+\begin{equation*}
+\begin{split}
+\lambda_{1}(x_{1},x_{2}) &= -x_{1} - 0.5x_{2} +1 ,  \\
+\lambda_{2}(x_{1},x_{2}) &= x_{1} - 0.5x_{2} + 0 ,  \\
+\lambda_{3}(x_{1},x_{2}) &= 0x_{1} + x_{2} + 0 .  \\
+\end{split}
+\end{equation*}
+Notemos que los coeficientes de cada coordenada baricentrica corresponde a una columna de $B$.
+\end{ejemplo}
+
+Para la construci\'on de los espacios $S_{h}$ en la formulaci\'on discreta \eqref{eq3}, en esta monograf\'ia utilizamos 2-s\'implex, particularmente tri\'angulos rect\'angulos is\'osceles.
+
+\begin{enumerate}[{\rm (FEM 1)}]
+\item  En esta etapa del proceso, se establece una partici\'on o subdivisi\'on de $\overline{\Omega}$ que llamamos $\mct_{h}$, que tiene un  n\'umero finito de subconjuntos $T$, que se denominan elementos finitos. $\mct_{h}$  se elige de tal manera que satisface las siguientes propiedades:
+\begin{enumerate}[{\rm  (1)}]
+\item  $\overline{\Omega}= \bigcup_{T\in \mct_{h} } T$.
+\item Para cada $T\in \mct_{h}$, $T$ es cerrado y $int(T)\neq\emptyset$.
+\item Para cada $T_{1},T_{2}\in \mct_{h}$ distintos, se tiene que $int(K_{1})\cap int(T_{2})=\emptyset$.
+\item Para cada $T\in \mct_{h}$, $\partial T$ es Lipschitz-continua.
+\item Para cada $T_{1},T_{2}\in \mct_{h}$ distintos, son adyacentes si  $T_{1}\cap T_{2}$ es una cara, que es la misma cara para ambos o adyacentes a la frontera $\partial\Omega$ cuando al menos una cara hace parte de $\partial\Omega$.
+\end{enumerate}
+\end{enumerate} 
+Las siguientes figuras son ejemplos de una subdivisi\'on en un conjunto $\Omega$.
+\begin{figure}[h]\label{figura2}
+\begin{center}
+		\begin{tikzpicture}
+		[place/.style={circle,draw=blue!100,fill=blue!20,thick,
+			inner sep=0pt,minimum size=1mm},
+		place1/.style={circle,draw=black!100,fill=black!100,thick,
+			inner sep=0pt,minimum size=1mm},
+		place2/.style={circle,draw=red!100,fill=red!70,thick,
+			inner sep=0pt, minimum size=1mm},
+		place3/.style={circle,draw=red!100,fill=red!20,thick,
+			inner sep=0pt, minimum size=0.7mm},scale=1.5]
+		%  Omega con los triangulos 
+%		\draw[<->] (0,-1.5) -- (0,1.5);
+%		\node at (0.2,1.5){$y$};
+%		\draw[<->] (-1.5,0) -- (1.5,0);
+%		\node at (1.5,0.2) {$x$};
+%		\draw[black!100,line width = 1pt] 
+%		(-1,-1) -- (1,-1) -- (1,1) -- (-1,1)--(-1,-1);
+		%    nodos de los triangulos 
+%		\node[place] at (0,0) {$\Omega$};
+		% tercer Omega con fronteras
+		%---------------------primera linea ------------
+		%\draw [->,line width=2pt,red] (3,3) -- (4.5,3);    
+%		\node at (-1,-1.2) {$a$};
+%		\node at (1,-1.2) {$b$};
+%		\node at (-1,1.2) {$c$};
+%		\node at (1,1.2) {$d$};
+		%---------------------segundo cuadrado---------
+		\draw[black!50,line width=1pt] (2,-1)node[place1]{}--(3,-1)node[place1]{} -- (4,-1)node[place1]{} -- (4,0)node[place1]{} -- (3,-1)node[place1]{}--(3,0)node[place1]{}--(2,-1)node[place1]{} --(2,0)node[place1]{}--(4,0)node[place1]{}--(4,1)node[place1]{}--(3,0)node[place1]{}--(3,1)node[place1]{}--(2,0)node[place1]{}--(2,1)node[place1]{}--(4,1) ;
+		
+		%----h------
+		\draw[black!50, line width=1pt]
+		(2,1.2)node{|}  -- (3,1.2)node{|};
+		\node at (2.5,1.4) {$h$};
+		%-----------
+		
+		
+		\draw[black!30,line width=1pt] (5,-1)node[place1]{}--(6,-1)node[place1]{} -- (7,-1)node[place2]{} -- (7,0)node[place1]{} -- (6,-1)--(6,0)node[place1]{}--(5,-1) --(5,0)node[place1]{}--(7,0)--(7,1)node[place1]{}--(6,0)--(6,1)node[place1]{}--(5,0)--(5,1)node[place1]{}--(7,1) ;
+		\draw[black!100,line width=1pt] (7,-1)node[place2]{}-- (6.5,-0.5)node[place2]{} ;
+		\node at (3,-1.5) [fill=red!10,decorate] {{\bf $\mct_{h}$}};
+		\node at (6,-1.5) [fill=red!10,decorate] {{\bf $\mct$}};
+		%nodos de los triangulos 
+		\node at (2.3,-0.3) [place] {$T_{1}$};
+		\node at (2.7,-0.7) [place] {$T_{2}$};
+		\node at (3.3,-0.3) [place] {$T_{3}$};
+		\node at (3.7,-0.7) [place] {$T_{4}$};
+		
+		\node at (2.3,0.7) [place] {$T_{5}$};
+		\node at (2.7,0.3) [place] {$T_{6}$};
+		\node at (3.3,0.7) [place] {$T_{7}$};
+		\node at (3.7,0.3) [place] {$T_{8}$};
+		
+		\node at (5.3,-0.3) [place] {$T_{1}$};
+		\node at (5.7,-0.7) [place] {$T_{2}$};
+		\node at (6.3,-0.3) [place] {$T_{3}$};
+		\node at (6.5,-0.8) [place3,transform shape,scale=0.5] {$T_{4}$};
+		\node at (6.8,-0.5) [place3,transform shape,scale=0.5] {$T_{5}$};
+		
+		\node at (5.3,0.7) [place] {$T_{6}$};
+		\node at (5.7,0.3) [place] {$T_{7}$};
+		\node at (6.3,0.7) [place] {$T_{8}$};
+		\node at (6.7,0.3) [place] {$T_{9}$};
+		\end{tikzpicture}
+\end{center}
+\caption{Representaci\'on de dominios, $\mct_{h}$ que satisface (FEM 1) y $\mct$ que no satisface (FEM 1) }
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\end{figure}
+
+Notemos que la figura \ref{figura2} la triangulaci\'on en la parte derecha no se cumple la propiedad 5 de (FEM 1), mientras que la tri\'angulaci\'on de la parte izquierda, si cumple todas las propiedades de (FEM 1).
+
+De Verf\"uth \cite{Rudiger2013} asociamos la siguiente notaci\'on. Para  la subdivisi\'on o partici\'on $\mct_{h}$ asociamos el conjunto $\mcn$  y $\mce$ de todos los v\'ertices  y lados, respectivamente de todos los elementos en $\mct_{h}$. Un sub\'indice $T,\Omega,\Gamma, \Gamma_{D}$, o $\Gamma_{N}$ a $\mcn$ o $\mce$ indica que solo se toman los v\'ertices o lados que est\'an contenidos en el conjunto del sub\'indice, respectivamente.  Similarmente $\mcn_{e}$ denota el conjunto de los v\'ertices de un lado $E$. La uni\'on de todos los lados en $\mce$ es denotada por $\mce_{\Sigma}$ y es llamado el esqueleto de $\mct_{h}$. 
+
+Con cada elemento $T$, cada lado $e$, y cada v\'ertice $N$ asociamos los siguientes conjuntos. 
+\begin{equation*}
+\begin{aligned}
+\omega_{e} &= \bigcup\{ T^{\prime} \mid e\in \mce_{T^{\prime}} \} \\
+\omega_{\text{\tiny $N$}} &= \bigcup \{ T^{\prime} \mid N\in\mcn_{T^{\prime}} \}
+\end{aligned}
+\qquad
+\begin{aligned}
+\widetilde{\omega}_{\textit{\tiny T}} &= \bigcup\{ T^{\prime} \mid \mcn_{e}\cap \mcn_{T^{\prime}} \}, \\
+\qquad \widetilde{\omega}_{e}&= \bigcup \{ T^{\prime} \mid \mcn_{e}\cap \mcn_{T^{\prime}}\neq \emptyset \}.
+\end{aligned}
+\end{equation*}
+\begin{figure}[h]\label{figura3}
+\begin{center}
+	\begin{tikzpicture}
+	[place/.style={circle,draw=black!60,fill=black!20,thick,
+		inner sep=0pt,minimum size=0.2mm},
+	place1/.style={circle,draw=black!100,fill=black!100,thick,
+		inner sep=0pt,minimum size=1mm},
+	place2/.style={circle,draw=red!100,fill=red!70,thick,
+		inner sep=0pt, minimum size=1mm},
+	place3/.style={circle,draw=red!100,fill=red!20,thick,
+		inner sep=0pt, minimum size=0.7mm},scale=1.5]
+%primer tri\'angulo
+\draw[black!50,line width=1pt]
+(-1,0)node[place]{}  -- (-0.5,0.5)node[place1]{} -- (0,0)node[place1]{} --  (-0.5,-0.5)node[place1]{} -- (-1,0)node[place1]{};
+%\node at (-0.5,-0.8) [] {$w_{e}$} ;
+\node at (-0.5,0.1) [] {$e$} ;
+\draw[black!90,line width=1.5pt]
+(-1,0)node[place1]{} -- (0,0)node[place1]{};
+
+%segunda figura 
+\draw[black!50,line width=1pt]
+(1,0)node[place]{}  -- (1.5,0.5)node[place1]{} -- (2,0)node[place1]{} --  (1.5,-0.5)node[place1]{} -- (1,0)node[place1]{} -- (0.5,0.5)node[place1]{} -- (0.5,-0.5)node[place1]{} -- (1,0)node[place1]{} ;
+\draw[black!90,line width=1.5pt]
+(1,0)node[place1]{} -- (2,0)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(0.5,-0.5)node[place1]{} -- (1.5,-0.5)node[place1]{} -- (2.5,-0.5)node[place1]{} -- (2,0)node[place1]{} -- (2.5,0.5)node[place1]{} -- (0.5,0.5)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(2.5,0.5)node[place1]{} -- (2.5,-0.5)node[place1]{};
+%\node at (1.5,-0.8) [] {$\widetilde{\omega}_{e}$};
+\node at (1.5,0.1) [] {$e$};
+% tercera figura
+\draw[black!50,line width=1pt]
+(3.5,0)node[place]{}  -- (4,0.5)node[place1]{} -- (4.5,0)node[place1]{} --  (4,-0.5)node[place1]{} -- (3.5,0)node[place1]{} -- (3,0.5)node[place1]{} -- (3,-0.5)node[place1]{} -- (3.5,0)node[place1]{} ;
+\draw[black!50,line width=1.5pt]
+(3.5,0)node[place1]{} -- (4.5,0)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(3,-0.5)node[place1]{} -- (4,-0.5)node[place1]{} -- (5,-0.5)node[place1]{} -- (4.5,0)node[place1]{} -- (5,0.5)node[place1]{} -- (3,0.5)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(5,-0.5)node[place1]{} -- (5,0.5)node[place1]{} -- (4.5,1)node[place1]{} -- (4,0.5)node[place1]{} -- (3.5,1)node[place1]{} -- (3,0.5)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(3.5,1)node[place1]{} -- (4.5,1)node[place1]{};
+%\node at (4,-0.8) [] {$\widetilde{\omega}_{\textit{\tiny T}}$};
+\node at (4,0.25) [] {$T$};
+\draw[black!50,line width=1.5pt]
+(6,-0.5)node[place1]{} -- (6.5,0)node[place1]{} -- (7,-0.5)node[place1]{} -- (7.5,0)node[place1]{} -- (7,0.5)node[place1]{} -- (6.5,0)node[place1]{} -- (6,0.5)node[place1]{} -- (5.5,0)node[place1]{} -- (6,-0.5)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(6,-0.5)node[place1]{} -- (7,-0.5)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(5.5,0)node[place1]{} -- (6.5,0)node[place1]{} -- (7.5,0)node[place1]{};
+\draw[black!50,line width=1.5pt]
+(6,0.5)node[place1]{} -- (7,0.5)node[place1]{};
+\node at (6.5,0) [place] {$\textit{\tiny N}$};
+%\node at (6.5,-0.7) {$\sigma_{N}$};
+\end{tikzpicture}
+\end{center}
+\caption{Representaci\'on de $\omega_{e}$, $\widetilde{\omega}_{e}$, $\widetilde{\omega}_{\textit{\tiny T}}$, $\omega_{\text{\tiny $N$}}$ se corresponde de izquierda a derecha con las gr\'aficas}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\end{figure}
+
+En la subdivisi\'on $\mct_{h}$ se define un espacio de elementos finitos $S_{h}$, que se especifica en el proceso, por ejemplo para los problemas discretos, el espacio de elementos finitos, cuando tenemos la condici\'on de frontera tipo Dirichlet no homog\'eneo y Neumann es
+\begin{equation}
+S_{h}^{1}= \{ v\in C^{1}(\overline{\Omega})\colon  v\restr{T}\in\mcp_{1}, \quad \forall T\in \mct_{h} \},
+\end{equation}
+para el caso tipo  Dirichlet homog\'eneo, y mixtas tenemos 
+\[ S_{0h}^{1}= \{ v\in C^{1}(\overline{\Omega})\colon  v\restr{T}\in \mcp_{1}, \quad \forall T\in \mct_{h}, v\restr{\Gamma_{D}}\equiv 0  \}. \]
+\begin{enumerate}[{\rm (FEM 2)}]
+\item El segundo aspecto del m\'etodo de los elementos finitos es la construcci\'on de los espacios de elementos finitos como espacios de funciones de polinomios, este hecho tiene una gran importancia ya que al realizar la implementaci\'on computacional los c\'alculos de los coeficientes del sistema \eqref{eq8} son mas simples. 
+\end{enumerate}
+
+En Ciarlet \cite[p. 78]{Ciarlet1978} nos presenta una definici\'on m\'as general de elemento finito que se enfoca en el espacio de funciones y las funciones base locales del elemento finito, ya que hasta ahora en (FEM 1) el elemento finito solo se ve como al objeto geom\'etrico elegido para hacer la subdivisi\'on o partici\'on de $\Omega$. 
+\begin{definicion}
+Un elemento finito en $\R^{n}$ es una tripleta $(T,P,\Sigma)$  donde : 
+\begin{enumerate}[{\rm (i)}]
+	\item $T$ es un subconjunto cerrado de $\R^{n}$ con $int(T)\neq \emptyset$ y frontera Lipschitz-continua. 
+	\item $P$ es un espacio de funciones real-valuadas definidas sobre el conjunto $T$. 
+	\item $\Sigma$ es un conjunto finito de funciones linealmente independiente $\phi_{i}$, con $1\leq i \leq n+1$, sobre $P$. 
+\end{enumerate}
+\end{definicion}
+\begin{ejemplo}
+	Considerando  $T$ como el 2-s\'implex en el ejemplo \eqref{FEM2}, se tiene que $p=\mcp_{1}(T)$ y $\Sigma$ esta conformado por las funciones de las coordenadas baricentricas, es decir $\Sigma =\{ \lambda_{1},\lambda_{2},\lambda_{3} \}$, as\'i el elemento finito es la tripleta $(T,P,\Sigma)$ 
+\end{ejemplo}
+
+\begin{definicion}
+Dos elementos finitos $(T,P,\Sigma)$ y $(\widehat{T},\widehat{P},\widehat{\Sigma})$, son equivalentes-af\'in, si existe una funci\'on invertible $F\colon \widehat{T} \to T$, tal que las siguientes relaciones se cumplen 
+\begin{enumerate}[{\rm (i)}]
+	\item $T=F(\widehat{T})$,
+	\item $P = \{ p:T\to \R  \mid p\equiv\widehat{p}\comp F^{-1},\quad  \widehat{p}\in \widehat{P} \},$
+	\item $N_{i}=F(\widehat{N}_{i})$ para $1 \leq i\leq n+1,$
+	\item $\Sigma = \{ \phi_{i}(F(\widehat{N}_{i})) \mid 1\leq i\leq n+1 \}. $
+\end{enumerate}
+\end{definicion}
+Una familia de elementos finitos $\mct_{h}$ se denomina familia af\'in, si todos sus elementos finitos son af\'in-equivalentes a un solo elemento finito no necesariamente contenido en la familia de elementos finitos $\mct_{h}$, que se llama el elemento finito de referencia de la familia $\mct_{h}$.
+
+\begin{ejemplo}
+Dada una familia de elementos finitos simpliciales en $\R^{n}$, es muy com\'un elegir como elemento de referencia a la unidad $n$-s\'implex con v\'ertices 
+\begin{equation*}
+\begin{split}
+\widehat{N}_{1}& = (1,0,\ldots,0),\\
+\widehat{N}_{2}& = (0,1,\ldots,0),\\
+& \vdots \\
+\widehat{N}_{n}& = (0,0,\ldots,1),\\
+\widehat{N}_{n+1}& = (0,0,\ldots,0),
+\end{split}
+\end{equation*}
+con coordenadas baricentricas 
+\[ \lambda_{i} = x_{i},\quad 1\leq i\leq n \text{ y } \lambda_{n+1}=1-\sum_{i=1}^{n}x_{i}, \]
+
+en caso de una familia af\'in rectangular de elementos finitos, usualmente se elige el elemento de referencia como el hipercubo unitario $[0,1]^{n}$ o el hipercubo $[-1,1]^{n}$.
+\end{ejemplo}
+
+El concepto de familia af\'in es importante ya que en la practica, la mayor parte del trabajo involucrado en los c\'alculos de los coeficientes del sistema \eqref{eq8} se realiza en elementos finitos de referencia y no en los elementos finitos de la familia. 
+
+\begin{enumerate}[{\rm (FEM 3)}]
+	\item El tercer aspecto del m\'etodo de elementos finitos es que existe al menos una base can\'onica en el espacio $S_{h}$, cuyas funciones base correspondientes tienen soporte lo mas peque\~no. 
+\end{enumerate}
+
+Hasta ahora de $(FEM 1)$ y $(FEM 2)$ tenemos localmente para cada $T\in\mct_{h}$,  el espacio de funciones $P$ y el conjunto de funciones bases local $\Sigma$. Ahora definamos 
+\[ \mcn_{h} \colon = \bigcup_{T\in \mct_{h}} \mcn_{T},  \] 
+son los nodos o v\'ertices de $\mct_{h}$. 
+El conjunto del n\'umero de grados de libertad del espacio de elementos finitos es el conjunto 
+\[\Sigma_{h}=\{ \varphi(N)\mid N\in \mcn_{h} \}, \]
+donde $\varphi(N)$ es la funci\'on base global correspondiente al nodo $N$, el conjunto $\Sigma_{h}$ se llama el conjunto de grados de libertad del espacio de elementos finitos.
+\begin{figure}[h]\label{figura4}
+\begin{center}
+	\begin{tikzpicture}
+	[place/.style={circle,draw=black!70,fill=black!40,thick,
+		inner sep=0pt,minimum size=0.5mm},
+	place1/.style={circle,draw=black!100,fill=black!100,thick,
+		inner sep=0pt,minimum size=1mm},
+	place2/.style={circle,draw=red!100,fill=red!70,thick,
+		inner sep=0pt, minimum size=1mm},
+	place3/.style={circle,draw=red!100,fill=red!20,thick,
+		inner sep=0pt, minimum size=0.7mm},scale=1.5]
+	\draw[black!50,line width=1pt] (2,-1)node[place]{}--(3,-1)node[place1]{} -- (4,-1)node[place1]{} -- (4,0)node[place1]{} -- (3,-1)node[place1]{}--(3,0)node[place1]{}--(2,-1)node[place1]{} --(2,0)node[place1]{}--(4,0)node[place1]{}--(4,1)node[place1]{}--(3,0)node[place1]{}--(3,1)node[place1]{}--(2,0)node[place1]{}--(2,1)node[place1]{}--(4,1) ;
+	%nodos en la malla
+	\node at (2,-1.2) [] {\textit{\tiny $N_{1}$}};
+	\node at (3,-1.2) [] {\textit{\tiny $N_{2}$}};
+	\node at (4,-1.2) [] {\textit{\tiny $N_{3}$}};
+	\node at (1.8,0) [] {\textit{\tiny $N_{4}$}};
+	\node at (2.7,-0.1) [] {\textit{\tiny $N_{5}$}};
+	\node at (4.2,0) [] {\textit{\tiny $N_{6}$}};
+	\node at (2,1.2) [] {\textit{\tiny $N_{7}$}};
+	\node at (3,1.2) [] {\textit{\tiny $N_{8}$}};
+	\node at (4,1.2) [] {\textit{\tiny $N_{9}$}};				
+	%Elementos 
+	\node at (2.3,-0.3) [] {$T_{1}$};
+	\node at (2.7,-0.7) [] {$T_{2}$};
+	\node at (3.3,-0.3) [] {$T_{3}$};
+	\node at (3.7,-0.7) [] {$T_{4}$};
+	\node at (2.3, 0.7)  [] {$T_{5}$};
+	\node at (2.7, 0.3)  [] {$T_{6}$};
+	\node at (3.3, 0.7)  [] {$T_{7}$};
+	\node at (3.7, 0.3)  [] {$T_{8}$};
+	\end{tikzpicture}
+\end{center}
+\caption{Se ilustra una discretizaci\'on con sus respectivos elementos y funciones bases}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\end{figure}
+
+Cuando tengamos una familia de elementos finitos  a las funciones bases $\varphi_{i}\in\Sigma_{h}$ al restringirla en cada elemento finito la denotaremos como $\phi^{\text{\tiny $j$}}_{i}$, donde $i$ hace referencia al nodo $N_{i}$ y el super\'indice $j$ hace referencia al sub\'indice del elemento finito. 
+
+En el gr\'afico anterior $\mcn_{h}=\{ N_{1},N_{2},N_{3},N_{4},N_{5},N_{6},N_{7},N_{8},N_{9} \}$, para los   $N\in\mcn_{h}\setminus \{ N_{7},N_{3} \}$ las funciones bases globales correspondientes tienen contribuci\'on de varias funciones bases locales de mas un elemento finito (en el sentido de (FEM 1) los tri\'angulos), en particular  $N_{1}$, la funci\'on base global correspondiente a este nodo es $$\varphi_{\text{\tiny 1}}(x_{1},x_{2})=(\varphi_{\text{\tiny 1}}\restr{T_{1}}(x_{1},x_{2}) , \varphi_{\text{\tiny 1}}\restr{T_{2}}(x_{1},x_{2}),\varphi_{\text{\tiny 1}}\restr{T_{3}}(x_{1},x_{2}),\ldots,\varphi_{\text{\tiny 1}}\restr{T_{8}}(x_{1},x_{2}))=(\phi^{\text{\tiny 1}}_{1},\phi^{\text{\tiny 3}}_{1},\phi^{\text{\tiny 2}}_{1},\ldots,\phi^{\text{\tiny 8}}_{1}), $$
+notemos que $\phi_{1}^{\text{\tiny j}}$ con $1\leq j\leq 8$ son coordenadas baricentricas es decir que al evaluarlas en su nodo correspondiente nos da $1$, as\'i 
+\begin{equation*}
+\begin{split}
+\varphi_{1}(N_{1})&=(\phi^{\text{\tiny 1}}_{1}(N_{1}),\phi^{\text{\tiny 3}}_{1}(N_{1}),\phi^{\text{\tiny 2}}_{1}(N_{1}),\ldots,\phi^{\text{\tiny 8}}_{1}(N_{1})),\\
+&=(1,1,0,\ldots,0),
+\end{split}
+\end{equation*}
+podemos observar que el soporte compacto de $\varphi_{1}$ es $T_{1}$ y $T_{2}$, en forma general 
+es decir depende de las funci\'on base local en el elemento finito $\text{\small $T_{i}$}$ que corresponde al nodo $N_{1}$ con $1\leq i\leq 2$, notemos que $\supp\varphi_{\text{\tiny 1}}=T_{1}\cup T_{2}$. 
+
+As\'i $\varphi_{i}$ es una $n-tupla$ con $n=\card(\mct_{h})$ tal que 
+\begin{equation*}
+\varphi_{i}\restr{T}(N_{j})= \left\{ \begin{aligned}
+1  \text{ si } i=j,\\
+0 \text{ si } i\neq j .
+\end{aligned}
+ \right. \quad \forall T\in \mct_{h},
+\end{equation*}
+notemos que si $\varphi_{i}\restr{T}(N_{j})=1$ necesariamente $N_{j}\in \mcn_{T}$.
+\begin{lema}
+las funciones $\varphi \in \Sigma_{h} $ tienen las siguientes propiedades
+\begin{enumerate}[{\rm (i)}]
+	\item $0\leq \varphi_{j} \leq 1$ con $1\leq j\leq n_{l}$, $n_{l}=\card(\Sigma_{h})$. 
+	\item $\sum_{N\in\mcn_{T}} \varphi(N)=1$.
+	\item $\supp(\varphi(N))=\omega_{N}$
+\end{enumerate}
+\end{lema}
+\begin{proof}
+\begin{enumerate}[{\rm (i)}]
+	\item Para verificar {\rm (i)} veamos que $\forall N\in \mcn$ $\forall T\in \mct_{h}$ se cumple que $0\leq \varphi_{j}\restr{T}(N)\leq 1$. 
+	
+	consideremos $n_{l}=\card(\Sigma_{h})$, $N_{i}\in \mcn$ con $1\leq i\leq n_{l}$,   y $\varphi_{j} \in \Sigma_{h}$ con $1\leq j \leq nl$ por definici\'on tenemos sobre $T_{k}$ que 
+	\begin{equation}
+	\varphi_{j}\restr{T}(N_{i})= \left\{ \begin{aligned}
+	1  \text{ si } i=j,\\
+	0 \text{ si } i\neq j .
+	\end{aligned}
+	\right. \quad \forall T\in \mct_{h},
+	\end{equation}
+por lo cual $0\leq \varphi_{j}\leq 1$
+\item veamos que $\sum_{N\in\mcn_{T}} \varphi(N)=1$, verifiquemos que para todo $N_{i}$ $\sum_{i=1}^{n_{l}} \varphi_{j}\restr{T}(N_{i})$, con $j=1,$\ldots$,n_{l}$ con $n_{l}=\card(\mcn_{T})$. 
+Veamos que para $i=1,\ldots n_{l}$ se cumple $\sum_{j=1}^{n_{l}} \varphi_{j}(N_{i})=1$ para $i=1,\ldots,n_{l}$. 
+\begin{equation}
+\begin{split}
+\sum_{j=1}^{n_{l}} \varphi_{j}(N_{1}) &= \varphi_{1}(N_{1}) + \varphi_{2}(N_{1})+\cdots + \varphi_{n_{l}}(N_{1}), \\
+&=1+0+\cdots+0=1,\\
+\sum_{j=1}^{n_{l}} \varphi_{j}(N_{2}) &= \varphi_{1}(N_{2}) + \varphi_{2}(N_{2})+\cdots + \varphi_{n_{l}}(N_{2}), \\
+&=0+1+\cdots+0=1,\\
+&\vdots\\
+\sum_{j=1}^{n_{l}} \varphi_{j}(N_{n_{l}}) &= \varphi_{1}(N_{n_{l}}) + \varphi_{2}(N_{n_{l}})+\cdots + \varphi_{n_{l}}(N_{n_{l}}), \\
+&=0+0+\cdots+1=1,\\
+\end{split}
+\end{equation}
+por lo cual $\sum_{N\in\mcn_{T}}\varphi(N)=1$. 
+\item Veamos que  $\supp(\varphi(N))=\omega_{\text{\tiny $N$}}$.
+Para $j=1,$\ldots$,n_{l}$, $n_{l}=\card(\Sigma_{h})$ tenemos que 
+\begin{equation}
+\begin{split}
+\supp(\varphi(N_{j}))&=\supp(\varphi_{j}),\\
+&=\{ N_{i}\in \mcn \mid \varphi_{j}(N_{i})\neq 0  \},\\
+&=\{ N_{i}\in \mcn \mid \exists_{1\leq k\leq nl}\text{ tal que } \varphi_{j}\restr{T_{k}}(N_{j})=1 \},\\
+&=\{ T_{k}\in \mct_{h} \mid \varphi_{j}\restr{T_{k}}(N_{j})=1 \},\\
+&=\{ T_{k} \in\mct_{h} \mid N_{j}\in \mcn_{T_{k}} \},\\
+&=\omega_{\text{\tiny $N_{j}$}}.
+\end{split}
+\end{equation}
+\end{enumerate}
+\end{proof}
+Definimos el espacio de funciones de elementos finitos como 
+\begin{equation}\label{espaciosdiscretos}
+\begin{split}
+S_{h}^{k}(\mct_{h})\colon &=\left\lbrace v=(v\restr{T})_{T\in \mct_{h}} \colon (v\restr{T})_{T\in \mct_{h}} \in \prod_{T\in \mct_{h}}\mcp_{k}(T) \right\rbrace \\
+S^{k}_{0h}(\mct_{h}) \colon &= \{ v\in S^{k}_{h}(\mct_{h}) \colon  v\restr{\Gamma_{D}}\equiv 0 \}.
+\end{split}
+\end{equation}
+\section{Estimador de error a-posteriori tipo residual}
+En Verf\"urth \cite[pp. 1-2]{Rudiger2013} en la soluci\'on de problemas num\'ericos pr\'acticos en f\'isica o ingenier\'ia, a menudo se encuentran la dificultad de que la precisi\'on general de la aproximac\'ion num\'erica se deteriora por la singularidades locales que surgen. Una soluci\'on es refinar la discretizaci\'on cerca de las regiones criticas. La pregunta entonces es c\'omo obtener un buen equilibrio entre las regiones refinadas y no refinadas de manera que la precisi\'on general sea \'optima. Otro problema estrechamente relacionado es el de obtener estimaciones fiables de la precisi\'on de la soluci\'on num\'erica calculada. Las estimaciones de error apriori, como las proporciona el an\'alisis de error est\'andar para los m\'etodos de elementos finitos, a menudo son insuficientes , ya que solo proporcionan informaci\'on sobre el comportamiento asint\'otico del error y requieren propiedades de regularidad de la soluci\'on que no se satisfacen en presencia de singularidades. 
+
+Estas consideraciones muestran la necesidad de indicadores de error que puedan extraerse a posteriori de la soluci\'on num\'erica calculada y de los datos dados por el problema. Por supuesto, el c\'alculo del indicador de error a posteriori deber\'ia ser mucho menos costoso que el c\'alculo de la soluci\'on num\'erica. Adem\'as, la estimaci\'on del error a porteriori debe ser local y debe producir una cota superior e inferior confiable para el error verdadero en una norma especificada por el usuario. En este contexto, cabe se\~nalar que la cotas superiores son suficiente para obtener una soluci\'on num\'erica con una presici\'on por debajo de una toleracia prescrita. Las cotas inferiores locales, son necesarias para asegurar que la cuadricula se refine correctamente de modo que se obtenga una soluci\'on num\'erica con una tolerancia prescrita utilizando un n\'umero m\'inimo de puntos en la malla. 
+
+El estimador residual es el error de la soluci\'on num\'erica calculada por una norma adecuada de su residual con respecto a la ecuaci\'on diferencial en la forma cl\'asica. 
+
+Consideremos el siguiente planteamiento general con respecto a los problemas cl\'asicos en el c\'apitulo 2.  
+
+Sea $\Omega$ un dominio poligonal en $\R^{2}$.
+
+Dados $f\in L^{2}(\Omega)$, $g\in L^{2}(\Gamma_{D})$ y $w\in L^{2}(\Gamma_{N})$, encontrar $u\in W$ tal que 
+\begin{equation}\label{residual1}
+\left\{
+\begin{aligned}
+-\Delta u &\equiv f \text{ en  } \Omega,\\
+u&\equiv g \text{ sobre } \Gamma_{D},\\
+\frac{\partial u }{\partial n}& \equiv w \text{ sobre } \Gamma_{N}. 
+\end{aligned}
+\right.
+\end{equation}
+donde $\Gamma \colon =\partial \Omega$ y   $\Gamma = \Gamma_{D}\cup \Gamma_{N}$, con $\Gamma_{D}\cap \Gamma_{N}=\emptyset$. 
+
+Si tenemos que :
+\begin{enumerate}[{\rm (1)}]
+	\item Si  $W= C^{2}(\Omega)\cap C^{0}(\overline{\Omega})$ y  $\Gamma_{N}=\emptyset$, entonces \eqref{residual1}  es un problema de valores de frontera tipo Dirichlet.\label{caso1}
+	\item Si $W= C^{2}(\Omega)\cap C^{1}(\overline{\Omega})$ y  $\Gamma_{D}=\emptyset$, se tiene que \eqref{residual1}  es un problema de valores de frontera tipo Neumann.
+	\item Si $W= C^{2}(\Omega)\cap C^{1}(\overline{\Omega})$ , $\Gamma_{N}\neq\emptyset$ y $\Gamma_{D}\neq\emptyset$, se sigue que \eqref{residual1} es un problema de valores de frontera tipo mixtas.\label{caso3}
+\end{enumerate}
+Consideremos la formulaci\'on equivalente \eqref{PissonMixtas2}  del  caso \eqref{caso3}   
+y llamamos $f_{1}=f+\Delta u_{0}$ en $\Omega$, $w_{1}=w- ((\partial u_{0})/(\partial n)) $, se tiene que $u_{1}=u-u_{0}$ donde $u_{0}\in H^{1}(\Omega)\cap C^{2}(\Omega)\cap C^{1}(\overline{\Omega}) $ e id\'enticamente a $g$ sobre $\Gamma_{D}$, adem\'as tenemos el  espacio de prueba $V=\{ v\in H^{1}(\Omega) \mid v\equiv 0 \text{ sobre  } \Gamma_{D} \}$, as\'i obtenemos la siguiente formulaci\'on cl\'asica
+
+Dados $f_{1}\in L^{2}(\Omega)$ y $w_{1}\in L^{2}(\Gamma_{N})$, encontrar $u_{1}\in V$ tal que 
+\begin{equation}\label{equres1} 
+\left\{
+\begin{aligned}
+-\Delta u_{1} &\equiv f_{1} \text{ en  } \Omega,\\
+u_{1}&\equiv 0 \text{ sobre } \Gamma_{D},\\
+\frac{\partial u_{1} }{\partial n}& \equiv w_{1} \text{ sobre } \Gamma_{N}. 
+\end{aligned}
+\right.
+\end{equation}
+Observemos en \eqref{equres1}, si $\Gamma_{N}=\emptyset$ se tienen los problemas cl\'asicos \eqref{poissonn} y \eqref{ep1}. Utilizaremos la Identidad de Green (Teorema \eqref{identidad de Green}) en el funcional $l$ para expresar la formulaci\'on d\'ebil asociada a \eqref{equres1} en t\'erminos  de $u_{1}$ y $w_{1}$, esto es 
+\begin{equation*}
+\begin{split}
+\langle l,v \rangle &= (f,v)_{0,\Omega} - a(u_{0},v) + (w,v)_{0,\Gamma_{N}},\\
+&=(f,v)_{0,\Omega} + \left(\Delta u_{0},v\right)_{0,\Omega} - \left(\frac{\partial u_{0}}{\partial n},v\right)_{0,\Gamma_{N}} + (w,v)_{0,\Gamma_{N}},\\
+&=(f+\Delta u_{0},v)_{0,\Omega} - \left( w-\frac{\partial u_{0}}{\partial n},v \right)_{0,\Gamma_{N}}, \\
+&=(f_{1},v)_{0,\Omega} - (w_{1},v)_{0,\Gamma_{N}}.
+\end{split}
+\end{equation*}
+As\'i la formulaci\'on d\'ebil asociada a \eqref{equres1} es : 
+
+Dados $f_{1}\in L^{2}(\Omega)$ y $w_{1}\in L^{2}(\Gamma_{N})$, encontrar $u_{1}\in V$ tal que 
+\begin{equation}\label{problemaresidualdebil}
+a(u_{1},v)=\langle l,v \rangle \quad  \forall v\in V.
+\end{equation}
+
+La formulaci\'on discreta del problema d\'ebil es :
+
+Encontrar $u_{h}\in S^{\text{\tiny 1}}_{0h}(\mct_{h})$ tal que 
+\begin{equation}\label{problemaresidualdiscreto}
+a(u_{h},v)=\langle l,v \rangle \quad \forall v\in S^{\text{\tiny 1}}_{0h}(\mct_{h}),
+\end{equation}
+donde $\mct_{h}$ es una partici\'on af\'in de $\Omega$.
+\subsection{Operador Cuasi-interpolador}
+Para cada conjunto medible $\omega\subset \R^{2}$ con medida positiva y para cada funci\'on integrable $v$ se tiene la media de $v$ sobre $\omega$ como 
+\[ \overline{v}_{\omega} = \frac{1}{\mu_{2}(\omega)}\int_{\omega} v({\bf x}) d{\bf x}, \]
+donde $\mu_{2}$ denota la medida est\'andar de Lebesgue en $\R^{2}$, as\'i definimos un operador cuasi-interpolador como 
+\begin{equation}\label{cuasiinterpolador}
+\begin{split}
+I_{\mct_{h}}v\colon H^{1}_{0}(\Omega)& \to V_{h} \\
+        v& \to I_{\mct_{h}}v=\sum_{N\in \mathcal{N}_{\Omega}\cup \mathcal{N}_{\Gamma_{\text{\tiny N}}}} \overline{v}_{\omega_{\text{\tiny $N$}}} \varphi_{\text{\tiny $N$}}. 
+\end{split}
+\end{equation}
+El operador $I_{\mct_{h}}$ tiene la siguiente propiedad de aproximaci\'on
+\begin{proposicion}[{\rm Ver (\cite{Rudiger2013})}]\label{clementinter}
+El siguiente estimador de error para todo $T\in \mct_{h}$, todo $e\in \mathcal{E}$, y toda funci\'on $v\in V$, 
+\begin{align*}
+\| v -I_{h}v \|_{0,T}\leq C_{1}h_{T}\| v\|_{E,\widetilde{\omega}_{T}},\\
+\| v -I_{h}v \|_{0,e}\leq C_{2}h^{1/2}_{e}\| v\|_{E,\widetilde{\omega}_{e}}.
+\end{align*}
+Las constante  $C_{1}$ y $C_{2}$ solo dependen de la forma del par\'ametro de $\mct_{h}$. 
+\end{proposicion}
+Ver demostraci\'on en Verf\"urth \cite[pag 108]{Rudiger2013}.
+\section{Estimador residual}
+Sea $u_{1}\in V$ y $u_{h}\in S^{1}_{0h}(\mct_{h})$ soluciones del problema d\'ebil \eqref{problemaresidualdebil} y el problema discreto \eqref{problemaresidualdiscreto} respectivamente. La estrategia es acotar el error $\| u-u_{h} \|_{E}$ superiormente, por una cantidad que solo involucre $u_{h}$ y los datos del problema del PVF \eqref{equres1} que son $f_{1}$ y $w_{1}$.
+
+\subsection{La equivalencia de error y residual}
+Para toda $v\in V$ se tiene 
+\begin{equation}
+\begin{split}
+a(u_{1},v)=\langle l,v \rangle,
+\end{split}
+\end{equation}
+restando a ambos lados $a(u_{h},v)$ tenemos 
+\begin{equation}
+\begin{split}
+a(u_{1},v) - a(u_{h},v)=\langle l,v \rangle - a(u_{h},v),\\
+\end{split}
+\end{equation}
+se sigue que 
+\begin{equation}\label{Resiual1}
+\begin{split}
+a(u_{1}-u_{h},v)=\langle l,v \rangle - a(u_{h},v).
+\end{split}
+\end{equation}
+Definimos el residual $R\colon V\to \R$ de $u_{h}$,  como 
+\begin{equation*}
+\begin{split}
+\langle R,v \rangle = \langle l,v \rangle - a(u_{h},v)\quad \forall v\in V.
+\end{split}
+\end{equation*}
+verifiquemos que $R$ esta en el espacio dual de $V$. 
+\begin{enumerate}[{\rm (i)}]
+\item $\langle R,\cdot \rangle$ es lineal: Sean $v_{1},v_{2}\in V$ y $\alpha\in \R$ veamos que $\langle R,v_{1} + \alpha v_{2} \rangle = \langle R,v_{1} \rangle + \alpha\langle R,v_{2} \rangle$.
+\begin{equation*}
+\begin{split}
+\langle R,v_{1} + \alpha v_{2} \rangle &= \langle l,v_{1} + \alpha v_{2} \rangle - a(u_{h},v_{1}+ \alpha v_{2}), \\
+&=\langle l,v_{1} \rangle + \alpha \langle l,v_{2} \rangle - a(u_{h},v_{1}) - \alpha a(u_{h},v_{2}), \\
+&=\langle l,v_{1} \rangle - a(u_{h},v_{1}) + \alpha (\langle l,v_{2} \rangle - a(u_{h},v_{2}) ),\\
+&=\langle R,v_{1} \rangle + \alpha \langle R,v_{2} \rangle .
+\end{split}
+\end{equation*}		
+\item $\langle R,v\rangle$ es acotado: Dado $v\in V$ veamos que existe $c$ tal que $|\langle R,v \rangle|\leq  c \|v\|_{1}$. 
+\begin{equation*}
+\begin{split}
+|\langle R,\cdot \rangle| &= |\langle l,v \rangle - a(u_{h},v) |,\\
+&\leq |\langle l,v \rangle| + |a(u_{h},v)|,\\
+&\leq c_{1}\|v\|_{1} + \| u_{h} \|_{1}\|v\|_{1},\\
+&\leq (c_{1}+\|u_{h} \|_{1}) \|v\|_{1},
+\end{split}
+\end{equation*}
+si tomamos $c=c_{1}+\|u_{h}\|_{1}$ tenemos que $ |\langle R,v \rangle| \leq c \|v\|_{1}$.
+\end{enumerate}
+as\'i tenemos que 
+\begin{equation}\label{residual02}
+a(u_{1}-u_{h},v)=\langle R,v \rangle \qquad \forall v\in V.
+\end{equation}
+Notemos que $(V,\|\cdot\|_{E}))$ es un espacio de Hilbert y $R\in V$ por Teorema de Representaci\'on de Riesz (Teorema \eqref{RR}) tenemos que 
+
+\begin{equation*}
+\begin{split}
+\| u_{1} \|_{E}=\|l\|_{V^{\prime}}=\sup_{v\in V \setminus \{0\} } \frac{|\langle l,v \rangle|}{\|v\|_{E}}
+\end{split}
+\end{equation*}
+por lo cual 
+\begin{equation}\label{residual01}
+\|u_{1}\|_{E} = \sup_{v\in V \setminus \{0\}} \frac{|a(u_{1},v)|}{\|v\|_{E}},
+\end{equation}
+de \eqref{residual01} y \eqref{residual02} tenemos que 
+\begin{equation}\label{residual022}
+\begin{split}
+\|u-u_{h}\|_{E}&=\sup_{v\in V \setminus \{0\} } \frac{|a(u-u_{h},v)|}{\|v\|_{E}},\\
+&=\sup_{v\in V \setminus \{0\} } \frac{|\langle R,v \rangle|}{\|v\|_{E}},\\
+&=\|R\|_{V^{\prime}}.
+\end{split}
+\end{equation}
+As\'i tenemos que la norma del error en $V$ es igual a la norma del Residual en $V^{\prime}$. 
+\subsection{Ortogonalidad de Galerkin }
+Primero observemos que, $S^{1}_{0h}(\mct_{h})\subset V$, por \eqref{eq1} tenemos que 
+\begin{equation*}\label{residual03}
+\begin{split}
+a(u-u_{h},v)=0, \qquad \forall v\in S^{1}_{0h}(\mct_{h}),
+\end{split}
+\end{equation*}
+por lo cual 
+\begin{equation}\label{residual04}
+\begin{split}
+\langle R,v \rangle=0 \qquad \forall v\in S^{1}_{0h}(\mct_{h}),
+\end{split}
+\end{equation}
+es decir que el espacio discreto  $S^{1}_{0h}(\mct_{h})$ esta contenido en el kernel de $R$.
+La ecuaci\'on \eqref{residual04} refleja el hecho que la discretizaci\'on $S^{1}_{0h}(\mct_{h})$ es consistente y que no se introducen errores adicionales por integraci\'on num\'erica o por soluci\'on inexacta del problema discreto. 
+\subsection{Una \texorpdfstring{$L^{2}$}{L2}-Representaci\'on del residual}
+Para toda $v\in V$ se tiene que 
+\begin{equation*}
+\begin{split}
+\langle R,v \rangle &= \langle l,v \rangle - a(u_{h},v),\\
+&=(f_{1},v)_{0,\Omega} + (w_{\text{\tiny 1}},v)_{0,\Gamma_{N}} - a(u_{h},v),
+\end{split}
+\end{equation*}
+sabemos que $\overline{\Omega}=\bigcup_{T\in\mct_{h}}T$, adem\'as $\Gamma_{N}=\bigcup_{e\in\mce_{ \Gamma_{N}}}e$, se sigue que 
+\begin{equation}\label{residual05}
+\langle R,v \rangle = \sum_{T\in\mct_{h}}(f_{1},v)_{0,T} + \sum_{e\in \mce_{ \Gamma_{N}}}(w_{\text{\tiny 1}},v)_{0,e} - \sum_{T\in\mct_{h}} a(u_{h}\restr{\text{\tiny $T$}},v),
+\end{equation}
+analizando el tercer t\'ermino del lado derecho en la ecuaci\'on \eqref{residual05} se sigue 
+\begin{equation*}\label{residual06}
+\sum_{T\in\mct_{h}} a(u_{h}\restr{\text{\tiny $T$}},v) = \sum_{T\in\mct_{h}} \left[ \left( \frac{\partial u_{h}\restr{\text{\tiny $T$}}}{\partial n} , v \right)_{0,\partial T} - (\Delta u_{h}\restr{\text{\tiny $T$}},v)_{0,T} \right],
+\end{equation*}
+reemplazando  en \eqref{residual05} tenemos 
+\begin{align}\label{residual07}
+\langle R,v \rangle &= \sum_{T\in\mct_{h}} (f_{1},v)_{0,T} + \sum_{e\in\mce_{ \Gamma_{N}}}(w_{\text{\tiny 1}},v)_{0,e} + \sum_{T\in\mct_{h}} (\Delta u_{h}\restr{\text{\tiny $T$}},v)_{0,T} - \sum_{T\in\mct_{h}} \left( \frac{\partial u_{h}\restr{\text{\tiny $T$}}}{\partial n},v \right)_{0,\partial T},\nonumber\\
+\langle R,v \rangle &= \sum_{T\in\mct_{h}} (f_{1}+\Delta u_{h}\restr{\text{{\tiny $T$}}},v)_{0,T} + \sum_{e\in\mce_{ \Gamma_{N}}}(w_{\text{\tiny 1}},v)_{0,e} - \sum_{T\in\mct_{h}} \left( \frac{\partial u_{h}\restr{\text{\tiny $T$}}}{\partial n},v \right)_{0,\partial T}, 
+\end{align}
+analicemos el tercer t\'ermino del lado derecho de la ecuaci\'on \eqref{residual07} 
+\begin{equation}\label{residual08}
+\sum_{T\in\mct_{h}} \left( \frac{\partial u_{h}\restr{\text{\tiny $T$}}}{\partial n} ,v \right)_{0,\partial T} = \sum_{T\in\mct_{h}} \left( \frac{\partial u_{h}\restr{ \text{\tiny $T$}}}{\partial n},v \right)_{0,\partial T \setminus \Gamma_{N}} + \sum_{e\in\mce_{ \Gamma_{N}}}\Bigg(\frac{\partial u_{h}\restr{ \text{\tiny $T$}}}{\partial n},v \Bigg)_{0,e},
+\end{equation}
+analicemos el lado derecho el primer t\'ermino en la ecuaci\'on \eqref{residual08}, para esto consideremos $T_{i}$ y $T_{j}$ dos elementos adyacentes arbitrarios de $\mct_{h}$, es decir $T_{i}$ y $T_{j}$ tiene un lado en com\'un.
+
+\begin{figure}[h]\label{figura5}
+\begin{center}
+ 	\begin{tikzpicture}
+ 	[place/.style={circle,draw=black!100,fill=black!100,thick,
+ 		inner sep=0pt,minimum size=1.2mm},
+ 	place1/.style={circle,draw=black!80,fill=black!20,thick,
+ 		inner sep=0pt,minimum size=7mm},
+ 	place2/.style={circle,draw=red!100,fill=red!20,thick,
+ 		inner sep=0pt, minimum size=5mm},scale=1.5]
+ 	%  Omega con los triangulos 
+ 	\draw[black!100,line width = 1pt] 
+ 	(-2.5,-1)node[place]{} -- (0.5,-1)node[place]{} -- (0.5,1)node[place]{} -- (-2.5,-1)--(-2.5,1)node[place]{}--(0.5,1);
+ 	%    nodos de los triangulos 
+ 	\node[] at (-0,-0.5) {$T_{j}$};
+ 	\node[] at (-2,0.5) {$T_{i}$};
+ 	\node[place] at (-1,0) {};
+ 	\node[] at (-0.5,-0.05) {$(x_{1},x_{2})$};
+ 	\draw[->,very thick] (-1,0) -- (-1.5,0.75);
+ 	\draw[->,very thick] (-1,0) -- (-0.5,-0.75);
+ 	% tercer Omega con fronteras
+ 	\draw[black!100,line width = 1pt,->] (4,-1) -- (6,-1);
+ 	\draw[black!100,line width = 1pt,->] (6,-1) -- (6,1);
+ 	\draw[red!100,line width = 1pt,->] (6,1) -- (4,-1);
+ 	\draw[->,very thick] (5,0) -- (4.5,0.5);
+% 	\draw[->,very thick] (-1,0) -- (-0.5,-0.75);
+ 	\node[place1] at (5.5,-0.4) {$T_{j}$};
+ 	\node[place] at (5,0) {}; 	
+ 	\node[] at (4.2,0.3) {$-n_e$}; 	
+ 	\node[place2] at (4.4,-0.6) {$e$};
+ 	
+ 	\draw[red!100,line width = 1pt,->] (1.8,-1) -- (3.8,1) ;
+ 	\draw[black!100,line width = 1pt,->] (3.8,1) --(1.8,1);
+ 	\draw[black!100,line width = 1pt,->] (1.8,1)--(1.8,-1);
+ 	
+	\draw[->,very thick] (2.8,0) -- (3.3,-0.5); 	
+ 	\node[place] at (2.8,0) {}; 	
+  	\node[] at (3.4,-0.3) {$n_e$}; 	
+ 	\node[place1] at (2.4,0.4) {$T_{i}$};
+ 	\node[place2] at (2.2,-0.6) {$e$};
+ 	\end{tikzpicture}
+ \end{center}
+\caption{Se ilustran dos elementos adyacentes, resaltando la normal exterior unitaria sobre un punto del lado en com\'un  y la orientaci\'on de los lados }
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+\end{figure}
+
+donde $n_{e}$ es un vector normal unitario exterior a $e$ en $T_{i}$ en el punto $(x_{1},x_{2})$ y $-n_{e}$ es un vector normal unitario exterior a $e$ en $T_{j}$ en el punto $(x_{1},x_{2})$, por lo cual 
+\begin{align}\label{residual09}
+\sum_{T\in\mct_{h}} \left( \frac{\partial u_{h}\restr{ \text{\tiny $T$}}}{\partial n},v \right)_{0,\partial T \setminus \Gamma_{N}}&= \sum_{e\in\mce_{ \Gamma_{\Omega}}} \left[ \left( \frac{\partial u_{h}\restr{ \text{\tiny  $T_{i}$ } }}{\partial n_{e}} ,v \right)_{0,e} + \left( -\frac{\partial u_{h}\restr{ \text{\tiny  $T_{j}$ } }}{\partial n_{e}} ,v \right)_{0,e} \right],\nonumber\\
+&= \sum_{e\in\mce_{ \Gamma_{\Omega}}} \left( \frac{\partial u_{h}\restr{ \text{\tiny  $T_{i}$ } }}{\partial n_{e}}  -\frac{\partial u_{h}\restr{ \text{\tiny  $T_{j}$ } }}{\partial n_{e}} ,v \right)_{0,e},\nonumber\\
+&= \sum_{e\in\mce_{ \Gamma_{\Omega}}} \left( \left(\nabla u_{h}\restr{ \text{\tiny  $T_{i}$ } }  -\nabla u_{h}\restr{ \text{\tiny  $T_{j}$ } } \right)\cdot n_{e} ,v \right)_{0,e},\nonumber\\
+&= \sum_{e\in\mce_{ \Gamma_{\Omega}}} \left( \lbt \nabla u_{u} \rbt \cdot n_{e},v  \right)_{0,e},
+\end{align}
+donde $\lbt \cdot \rbt$ se llama la funci\'on salto, note que la calculamos sobre elementos adyacentes. Reemplacemos \eqref{residual09} en \eqref{residual08}, esto es
+\begin{equation}\label{residual010}
+\begin{split}
+\sum_{T\in\mct_{h}} \left( \frac{\partial u_{h}\restr{\text{\tiny $T$}}}{\partial n} ,v \right)_{0,\partial T} = \sum_{e\in\mce_{ \Gamma_{\Omega}}} \left( \lbt \nabla u_{h} \rbt \cdot n_{e},v  \right)_{0,e} + \sum_{e\in\mce_{ \Gamma_{N}}}\left( \nabla u_{h}\restr{ \text{\tiny $T,e$}} \cdot n,v \right)_{0,e},
+\end{split}
+\end{equation}
+donde $\nabla u_{h}\restr{ \text{\tiny $T,e$}}$  es el gradiente de $u_{h}$ restringida al elemento que tiene como lado a $e$, as\'i reemplazando \eqref{residual010}   en  \eqref{residual07} tenemos  
+\begin{equation}\label{residual011}
+\langle R,v \rangle = \sum_{T\in\mct_{h}} (f_{1}+\Delta u_{h}\restr{\text{\tiny $T$}},v)_{0,T} + \sum_{e\in \mce_{ \Gamma_{N}}} \left( w_{1} - \nabla u_{h}\restr{\text{\tiny $T,e$}} \cdot n ,v \right)_{0,e} + \sum_{e\in \mce_{ \Omega}} \left( -\lbt \nabla u_{h} \rbt \cdot n_{e},v\right)_{0,e}.
+\end{equation}
+Definimos el residual por elementos y el residual por lados como $r\colon \Omega \to \R$ y $j\colon \mce_{\Sigma}\to \R$ respectivamente, tal que 
+\begin{equation*}
+\begin{split}
+r\restr{\text{\tiny $T$ }} & = f_{1} + \Delta u_{h}, \\
+j\restr{e} &= \left\{ 
+\begin{aligned}
+- \lbt \nabla u_{h} \rbt\cdot n_{e} \hspace{0.1cm} &\text{ si } e\in \mce_{ \Omega},\\
+w_{1} - \nabla u_{h}\restr{ \text{\tiny  $T,e$ }} \hspace{0.1cm} &\text{ si } e\in \mce_{ \Gamma_{N}},\\
+0\hspace{1cm} &\text{ si } e\in\mce_{ \Gamma_{D}}.
+\end{aligned}
+\right.
+\end{split}
+\end{equation*}
+Notemos que $\Delta u_{h}\equiv 0$ sobre cada elemento finito, ya que $ u_{h}\restr{\text{\tiny $T$ } } \in \mcp_{1}(T) $. As\'i la siguiente $L^{2}$-representaci\'on del residual $R$
+\begin{equation*}
+\langle R,v \rangle = (r,v)_{0,\Omega} + (j,v)_{0,\mce_{\Sigma}} , \quad \forall v\in V. 
+\end{equation*}
+
+Por la ortogonalidad de Galerkin tenemos que $\langle R,v_{h} \rangle = 0$, adem\'as  para toda $v_{h}\in S^{1}_{0h}(\mct_{h})$ y toda $v\in V$, tenemos 
+\begin{equation}\label{residual012}
+\begin{split}
+\langle R,v \rangle &= (r,v)_{0,\Omega} + (j,v)_{0,\mce_{\Sigma}} + \langle R,v_{h} \rangle  , \\
+&= (r,v)_{0,\Omega} + (j,v)_{0,\mce_{\Sigma}} + (r,v_{h})_{0,\Omega} + (j,v_{h})_{0,\mce_{\Sigma}},\\
+&= (r,v-v_{h})_{0,\Omega} + (j,v-v_{h})_{0,\mce_{\Sigma}},
+\end{split}
+\end{equation}
+\subsection{Una cota superior para el error}
+Sea $v\in V$ una funci\'on arbitraria , as\'i por el operador cuasi-interpolador elegimos $v_{h}$ tal que $v_{h}=I_{\mct_{h}}(v)$, por lo cual de \eqref{residual012} obtenemos
+\begin{equation}\label{residual013}
+\begin{split}
+|\langle R,v \rangle| &= | (r_{\text{\tiny $T$}},v-v_{h})_{0,\Omega} + (j_{e},v-v_{h})_{0,\mce_{\Sigma}} |,\\
+&= \left| \sum_{T\in\mct_{h}}(r_{\text{\tiny $T$}},v-I_{\mct_{h}}(v))_{0,T} + \sum_{e\in \mce}(j_{e},v-I_{\mct_{h}}(v))_{0,e} \right|,\\
+&\leq \sum_{T\in\mct_{h}}|(r_{\text{\tiny $T$}},v-I_{\mct_{h}}(v))_{0,T}| + \sum_{e\in \mce}|(j_{e},v-I_{\mct_{h}}(v))_{0,e}|,
+\end{split}
+\end{equation}
+por la inecuaci\'on de Cauchy-Schwarz tenemos 
+\begin{equation}\label{residual014}
+\sum_{T\in\mct_{h}}|(r_{\text{\tiny $T$}},v-I_{\mct_{h}}(v))_{0,T}| + \sum_{e\in \mce}|(j_{e},v-I_{\mct_{h}}(v))_{0,e}|\leq\sum_{T\in\mct_{h}}\|r_{\text{\tiny $T$}}\|_{0,T} \|v-I_{\mct_{h}}(v)\|_{0,T} + \sum_{e\in \mce}\|j_{e}\|_{0,e} \|v-I_{\mct_{h}}(v)\|_{0,e}
+\end{equation}
+por la propiedad de aproximaci\'on del operador cuasi-interpolador  \eqref{clementinter}, existen $C_{1}$ y $C_{2}$ tal que 
+\begin{equation}\label{residual015}
+\begin{split}
+\| v -I_{h}v \|_{0,T}&\leq C_{1}h_{T}\| v\|_{E,\widetilde{\omega}_{T}},\\
+\| v -I_{h}v \|_{0,e}&\leq C_{2}h^{\text{\tiny $1/2$}}_{e}\| v\|_{E,\widetilde{\omega}_{e}},
+\end{split}
+\end{equation}
+de \eqref{residual015} y del lado derecho de la inecuaci\'on \eqref{residual014} se sigue
+\begin{equation}\label{residual016}
+\sum_{T\in\mct_{h}}\|r_{\text{\tiny $T$}}\|_{0,T} \|v-I_{\mct_{h}}(v)\|_{0,T} + \sum_{e\in \mce}\|j_{e}\|_{0,e} \|v-I_{\mct_{h}}(v)\|_{0,e}\leq \sum_{T\in\mct_{h}}\|r_{\text{\tiny $T$}}\|_{0,T}C_{1}h_{T}\| v\|_{E,\widetilde{\omega}_{T}} + \sum_{e\in \mce}\|j_{e}\|_{0,e} C_{2}h^{\text{\tiny $1/2$}}_{e}\| v\|_{E,\widetilde{\omega}_{e}},
+\end{equation}
+aplicando la inecuaci\'on de Cauchy-Schwarz para sumas a lado derecho de \eqref{residual016} se sigue 
+\begin{equation}\label{residual017}
+\begin{split}
+C_{1}\sum_{T\in\mct_{h}} h_{T} \|r_{\text{\tiny $T$}}\|_{0,T} \| v\|_{E,\widetilde{\omega}_{T}}&\leq C_{1} \bigg( \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T} \bigg)^{1/2} \bigg( \sum_{T\in \mct_{h}} \|v\|^{2}_{E,\widetilde{\omega}_{T}} \bigg)^{1/2},\\
+C_{2}\sum_{e\in \mce}h^{\text{\tiny $1/2$}}_{e}\|j_{e}\|_{0,e}\| v\|_{E,\widetilde{\omega}_{e}}&\leq C_{2}\bigg( \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e} \bigg)^{1/2} \bigg( \sum_{e\in \mce}\|v\|^{2}_{E,\widetilde{\omega}_{e}} \bigg)^{1/2}, 
+\end{split}
+\end{equation}
+tomando $C=\max\{C_{1},C_{2}\}$, tenemos que el lado izquierdo de \eqref{residual016} es mayor o igual a $|\langle R,v \rangle|$, adem\'as del lado derecho de  \eqref{residual016} y \eqref{residual017}, obtenemos 
+\begin{equation}
+\begin{split}
+|\langle R,v \rangle|\leq C\left[ \bigg( \sum_{T\in\mct_{h}} h^{2}_{T}\|r_{\text{\tiny $T$}}\|^{2}_{0,T} \bigg)^{1/2} \bigg( \sum_{T\in \mct_{h}} \|v\|^{2}_{E,\widetilde{\omega}_{T}} \bigg)^{1/2} + \bigg( \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e} \bigg)^{1/2} \bigg( \sum_{e\in \mce}\|v\|^{2}_{E,\widetilde{\omega}_{e}} \bigg)^{1/2}  \right]
+\end{split}
+\end{equation}
+por la desigualdad de Cauchy-Schwarz tenemos que $a_{1}b_{1} + a_{2}b_{2} \leq (a^{2}_{1} + a^{2}_{2})^{1/2}(b^{2}_{1} + b^{2}_{2})^{1/2}$, $a_{i},b_{i}\in \R$, con $i=1,2,$ as\'i considerando 
+\begin{equation*}
+\begin{aligned}
+a_{1}&= \bigg( \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T} \bigg)^{1/2},\\  a_{2} &=\bigg( \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e} \bigg)^{1/2},
+\end{aligned}
+\qquad
+\begin{aligned}
+b_{1}&=\bigg( \sum_{T\in \mct_{h}} \|v\|^{2}_{E,\widetilde{\omega}_{T}} \bigg)^{1/2},\\
+b_{2}&=\bigg( \sum_{e\in \mce}\|v\|^{2}_{E,\widetilde{\omega}_{e}} \bigg)^{1/2},
+\end{aligned}
+\end{equation*}
+se sigue que 
+\begin{equation}\label{residual019}
+|\langle R,v \rangle| \leq C \bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2}\bigg[ \sum_{T\in \mct_{h}} \|v\|^{2}_{E,\widetilde{\omega}_{T}}  +  \sum_{e\in \mce}\|v\|^{2}_{E,\widetilde{\omega}_{e}}  \bigg]^{1/2}.
+\end{equation}
+Debido a la forma regular de $\mct_{h}$, el di\'ametro de cualquier conjunto puede ser acotado por un m\'ultiplo del di\'ametro de cualquier elemento o lado contenido en el conjunto, donde la constante solo depende de la forma del par\'ametro $h$, es decir existen constantes $A_{1},A_{2}$ 
+\begin{equation}\label{residual018}
+\begin{split}
+\sum_{T\in \mct_{h}} \|v\|^{2}_{E,\widetilde{\omega}_{\text{\tiny $T$}}} &\leq A_{1}\sum_{T\in \mct_{h}} \|v\|_{E,T} = A_{1}\|v\|_{E,\Omega}, \\
+\sum_{e\in\mce} \|v\|^{2}_{E,\widetilde{\omega}_{\text{\tiny $e$}}} &\leq A_{2}\sum_{T\in \mct_{h}} \|v\|_{E,T} = A_{2}\|v\|_{E,\Omega}, \\
+\end{split}
+\end{equation}
+del tercer t\'ermino de la multiplicaci\'on al lado derecho de \eqref{residual019}, de  \eqref{residual018} y eligiendo $C_{\mct_{h}}=\max\{ A_{1},A_{2} \}$ obtenemos 
+\begin{equation}\label{residual020}
+\bigg[ \sum_{T\in \mct_{h}} \|v\|^{2}_{E,\widetilde{\omega}_{T}}  +  \sum_{e\in \mce}\|v\|^{2}_{E,\widetilde{\omega}_{e}}  \bigg]^{1/2}\leq C_{\mct_{h}} \|v\|_{E,\Omega},
+\end{equation}
+eligiendo $c=C_{1}C_{\mct_{h}}$, de \eqref{residual019} y \eqref{residual020} se sigue 
+\begin{equation}
+|\langle R,v \rangle|\leq c\|v\|_{E,\Omega}\bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2},
+\end{equation}
+para toda $v\in V\setminus\{ 0\}$ se tiene 
+\begin{equation}\label{residual023}
+\frac{|\langle R,v \rangle|}{ \|v\|_{\text{\tiny $E$}} }\leq c\bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2},
+\end{equation}
+de \eqref{residual022} y de \eqref{residual023} se tiene 
+\begin{equation}\label{residual021}
+\|u-u_{h}\|_{E}\leq c\bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2},
+\end{equation}
+como $V$ es un espacio de Hilbert, las norma en $V$, $\| \cdot\|_{V}$ es equivalente a la norma $\|\cdot\|_{E}$, entonces la cota superior tambi\'en es cota para el error $\|u-u_{h}\|_{1}$.
+
+por la construci\'on del resultado \eqref{residual021}, tenemos el siguiente teorema 
+\begin{teorema}\label{teoremadelgrado}
+Sea $\mct_{h}$ una tri\'angulaci\'on que satisface las condiciones de (FEM 1), entonces existe una constante $c$ positiva tal que 
+\begin{equation}
+\|u-u_{h}\|_{1}\leq c\bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2}.
+\end{equation}
+\end{teorema}
+
+
+\section{Implementaci\'on num\'erica}
+El objetivo de esta implementaci\'on num\'erica es verificar que se cumple el Teorema \eqref{teoremadelgrado}, implementando mallas con refinamiento uniforme y con refinamiento adaptativo, sobre dominios poligonales con formados por 2-s\'implex is\'osceles con un \'angulo recto. 
+
+Considerando el \eqref{caso1}, es decir el PVF tipo Dirichlet 
+\begin{equation*}
+\left\{
+\begin{aligned}
+-\Delta u &\equiv f \quad\text{en } \Omega,\\
+u&\equiv g\quad \text{sobre } \partial\Omega,
+\end{aligned}
+\right.
+\end{equation*}
+donde $f\in L^{2}(\Omega)$ y $g\in L^{2}(\partial \Omega)$ y $u\in C^{2}(\Omega)\cap C^{0}(\overline{\Omega})$, con formulaci\'on discreta:
+
+Dado  $u_{0h}\in S^{1}_{h}(\mct_{h})$, encontrar $u_{h}\in S^{1}_{h}(\mct_{h})$ tal que 
+\begin{equation}
+\left\{
+\begin{aligned}
+&u_{h} \in u_{0h} + S^{1}_{0h}(\mct_{h})=\{ v_{h}\in S^{1}_{h}(\mct_{h}) \colon (v_{n}-u_{0h})\in S^{1}_{0h}(\mct_{h}) \},\\
+&a(u_{h},v_{h})=\langle l,v_{h} \rangle \qquad \forall v_{h}\in S^{1}_{0h}(\mct_{h}).
+\end{aligned}
+\right.
+\end{equation}
+Tenemos que $\Gamma_{D}=\emptyset$ por lo cual los residuales por elemento y por lado son 
+\begin{equation*}
+\begin{split}
+r_{\text{\tiny $T$}} & = f, \\
+j_{\text{\tiny $e$}} &= \left\{ 
+\begin{aligned}
+- \lbt \nabla u_{h} \rbt\cdot n_{e} \hspace{0.1cm} &\text{ si } e\in \mce_{ \Omega},\\
+0\hspace{1cm} &\text{ si } e\in\mce_{ \Gamma_{D}},
+\end{aligned}
+\right.
+\end{split}
+\end{equation*}
+respectivamente. Definimos el estimador tipo residual global 
+\begin{equation}
+\eta_{\text{\tiny $R$}} \colon =\bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2},
+\end{equation}
+y un indicador global de los elementos, un indicador global de los lados, como 
+\begin{equation*}
+\begin{split}
+{\rm IdE_{g}}\colon = \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T} \quad\text{ y }\quad {\rm IdL_{g}}\colon = \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e},
+\end{split}
+\end{equation*}
+calculando ${\rm IdE_{g}}$ y ${\rm IdL_{g}}$ podemos llevar acabo la implementaci\'on num\'erica para la estrategia de refinamiento uniforme. 
+
+Para desarrollar la estrategia de refinamiento adaptativo debemos tener unos indicadores locales, para esto consideremos $n=\card(\mct_{h})$ y $m=\card(\mce_{ \Gamma_{\Omega}})$  
+\begin{equation}
+\begin{split}
+\eta_{\text{\tiny $R$}} &=\bigg[ \sum_{T\in\mct_{h}} h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \sum_{e\in \mce} h_{e}\|j_{e}\|^{2}_{0,e}  \bigg]^{1/2},\\
+&=\bigg[ h^{2}_{T_{1}}\| r_{\text{\tiny  $T_\text{\tiny 1}$}} \|^{2}_{0,T_{1}}+\cdots+h^{2}_{T_{n}}\| r_{\text{\tiny $T_\text{\tiny n}$}} \|^{2}_{0,T_{n}}+ h_{e_{1}}\|j_{\text{\tiny  $e_{1}$}}\|^{2}_{0,e_{\text{\tiny 1}}}+\ldots+h_{e_{m}}\|j_{\text{\tiny  $e_{m}$}}\|^{2}_{0,e_{\text{\tiny m}}} \bigg]^{1/2},
+\end{split}
+\end{equation}
+tenemos que para cada lado $e\in\mce_{\Omega}$ le corresponden dos tri\'angulos adyacentes, as\'i para tener un indicador local, sedemos la mitad de $h_{e_{\text{\tiny m}}}\|j_{\text{\tiny  $e_{m}$}}\|^{2}_{0,e_{\text{\tiny m}}}$ a cada elemento adyacente correspondiente, es decir
+\begin{equation}
+\begin{split}
+\eta_{\text{\tiny $R$}} = \bigg[ \sum_{T\in\mct_{h}} \bigg(h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \frac{1}{2}\sum_{e\in \mce_{\text{\tiny T}}} h_{e}\|j_{e}\|^{2}_{0,e} \bigg)  \bigg]^{1/2},\\
+\end{split}
+\end{equation}
+definimos el indicador por elementos como 
+\begin{equation}
+\eta_{\text{\tiny $R,T$}}=\bigg(h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T}  + \frac{1}{2}\sum_{e\in \mce_{\text{ \tiny $T$}}} h_{e}\|j_{e}\|^{2}_{0,e} \bigg)^{1/2},
+\end{equation}
+de donde obtenemos un indicador de elemento local y un indicador de lado local como 
+\begin{equation*}
+\begin{split}
+{\rm IdE_{c}}\colon = h^{2}_{T}\| r_{\text{\tiny $T$}} \|^{2}_{0,T} \quad\text{ y }\quad {\rm IdL_{c}}\colon = \dfrac{1}{2}\sum_{e\in\mce_{T}} h_{e}\|j_{e}\|^{2}_{0,e}.
+\end{split}
+\end{equation*}
+Solo nos queda verificar el Teorema \eqref{teoremadelgrado} con los correspondientes refinamientos. 
+
+\subsection{Refinamiento uniforme}
+Comenzaremos enunciando el pseudoc\'odigo para calcular el error y el residual.
+
+\begin{algorithm}[H]\label{codigo1}
+	\caption{ (Algoritmo uniforme) }
+	\SetAlgoLined
+	\KwData{Los datos de la ecuaci\'on diferencial parcial y $m$ n\'umeros de mallas.}
+	\KwResult{Por cada malla una soluci\'on num\'erica $u_{h}$, el error entre la soluci\'on real y la soluci\'on num\'erica en la norma $\|\cdot\|_{1}$ y $\eta_{\text{\tiny $R$}}$.}
+	\LinesNumbered
+	\SetAlgoVlined
+	Para $k=0$. 
+	
+	Calculamos la soluci\'on num\'erica $u_{h}$ en el espacio $\mct^{k}_{h}$.
+	
+	Calculamos el error entre $u$ y $u_{h}$. 
+	
+	Calculamos $\eta_{\text{\tiny $R$}}$. 
+	
+	\eIf{$k=m$}{T\'ermine\;}{
+		\Return $k+1$ y retomar el paso {\rm (2)}}
+\end{algorithm}
+
+
+Considerando refinamientos uniformes sobre el dominio $[-1, 1]^{2}$ con  \[ u(x_{1},x_{2})= \exp(x_{1})\cos(\pi x_{2}) \text{ y } f(x_{1},x_{2})=(\pi^{2}-1)\exp(x_{1})\cos(\pi x_{2}), \] al aplicar el algoritmo  
+\ref{codigo1}  obtenemos los resultados del cuadro \ref{table1} y comparando los resultados num\'ericos del error $\|u-u_{h}\|_{1}$ y el $\eta_{\text{\tiny $R$}}$ obtenemos la figura \ref{mode3}. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{mode3}
+	\caption{Representamos el par\'ametro de discretizaci\'on $h$ vs $\eta_{\text{\tiny $R$}}$, error $e=\|u-u_{h}\|_{1}$, con mallas de refinamiento uniforme.}
+	\label{mode3}
+\end{figure}
+\begin{table}[h!]\label{table1}
+	\begin{center}
+		\begin{tabular}{c | c| c| c| c|c } \hline
+			h      &	$\eta_{\text{\tiny $R$}}$	   &    $e$ &	$\theta=\eta_{\text{\tiny $R$}}/e$	& $\theta_{1}$	&  $\theta_{2}$ \\ \hline 
+			$2$      &	47,7765&	7,74207&	6,1710 &    &		  \\
+			$1$      &	27,3769&	3,95809&	6,9167 &	-0,8034&	-0,968  \\
+			$1/2$    &	14,4157&	3,07471&	4,6885 &	-0,9254&	-0,3644\\
+			$1/4$   &	7,9129 &	1,59392&	4,9644 &-0,8654&	-0,9479 \\
+			$1/8$  &	4,1099 &	0,80442&	5,1091 &	-0,9452&	-0,9866 \\
+			$1/16$ &	2,0865 &	0,40315&	5,1755 &	-0,9781&	-0,9967 \\\hline
+		\end{tabular} 
+		\caption{Estimador residual, error, \'indice de efectividad y tasas de convergencia.}
+	\end{center}
+\end{table}
+
+donde $ \theta_{1}=(\log(\eta_{\text{\tiny $R$}}(i+1,1)/\eta_{\text{\tiny     $R$}}(i,1)))/(\log(h(i+1,1)/h(i,1)))$,  $\theta_{2}=(\log(e(i+1,1)/e(i,1)))/(\log(h(i+1,1)/h(i,1)))$.
+\newpage
+Al aplicar el algoritmo \ref{codigo1} con refinamiento uniforme sobre el dominio $L=[-1,0]\times [-1,1]\cup [0,1]\times [0,1]$, con las funciones $$u(r,\theta)=r^{2/3}\sin((2\theta)/3) \text{ y }  f=0,$$ donde $r$ y $\theta$  son coordenadas polares, obtenemos los resultados en la tabla \ref{table2} y la figura \ref{fig:mode5uniforme} de comparar el error y el estimador residual.
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{mallaL}
+	\caption{ Representamos el par\'ametro de  discretizaci\'on vs el error y el estimador tipo residual.} 
+	\label{fig:mode5uniforme}
+\end{figure}
+
+\begin{table}[ht!]\label{table2}
+	\begin{center}
+		\begin{tabular}{c|c | c| c| c| c | c} \hline
+			N & h       &	$\eta_{\text{\tiny $R$}}$	   &    $e$ &	$\theta=\eta_{\text{\tiny     $R$}}/e$	& $\theta_{1}$	&  $\theta_{2}$ \\ \hline 
+			0&1	    &1,2837	                           &0,4787	&2,6817	&	    &              \\
+			5&1/2	    &0,8822	                           &0,3013	&2,9282	&-0,5412&	-0,6680  \\
+			33&1/4	    &0,5848                            &0,1937	&3,0200	&-0,5932&	-0,6374 \\
+			161&1/8	    &0,3817	                           &0,1242	&3,0747	&-0,6156&	-0,6412  \\
+			705&1/16	&0,2459                            &0,0792  &3,1064 &-0,6344&	-0,6491  \\
+			2945&1/32	&0,1572                            &0,0503  &3,1251 &-0,6455&	-0,6550  \\\hline
+		\end{tabular}
+		\caption{Estimador residual, error, \'indice de efectividad y tasas de convergencia.}
+	\end{center}
+\end{table}
+
+
+De cuadros {\rm 3.1} y {\rm 3.2} se puede observar que a medida que el par\'ametro de discretizaci\'on $h$ se acerca acero o va disminuyendo a la mitad, se evidencia en los refinamientos uniformes en el dominio $L$ y el dominio $[-1, 1]^{2}$, que el error es proporcional al estimador tipo residual, lo que es una evidencia num\'erica  que el Teorema \ref{teoremadelgrado} se cumple, como podemos observar en las gr\'aficas \ref{mode3} y \ref{fig:mode5uniforme}, adem\'as los indicadores de efectividad van dejando la evidencia de la existencia de la constante involucrada en el teorema \ref{teoremadelgrado}.
+
+
+\subsection{Refinamiento adaptativo}
+Para desarrollar la estrategia adaptativa, hemos utilizado el siguiente pseudoc\'odigo 
+
+\begin{algorithm}[H]\label{codigo2}
+	\caption{ (Algoritmo adaptativo) }
+	\SetAlgoLined
+	\KwData{Tol = Tolerancia del error, $\xi=$ parametro de refinamineto.}
+	\KwResult{Por cada refinamiento el error en la norma $\|\cdot\|_{1}$ y $\eta_{\text{\tiny $R$}}$.}
+	\LinesNumbered
+	\SetAlgoVlined
+	Para $k=1$ 
+	
+	Cargue una malla inicial $\Gamma_{k}$.
+	
+	Calculamos la soluci\'on num\'erica $u_{h}$ en el espacio $\mct_{k}$.
+	
+	Calculamos el error entre $u$ y $u_{h}$  en la norma $\| \cdot\|_{1}$.
+	
+	Calculamos $\eta_{\text{\tiny $R,T$}}$ para todo $T\in \mct_{k}$.
+	
+	Calculamos $\eta_{\text{\tiny     $R$}}$.
+	
+	\eIf{$\eta_{\text{\tiny   $R$}} \leq Tol$}{T\'ermine\;}{
+		\Return  Calculamos $\eta_{max}\colon =\max\{ \eta_{R,T} \mid T\in \mct_{k} \}$,  refine cualquier $T\in \mct_{k}$ tal que $\eta_{R,T} > \xi\cdot \eta_{max}$, sea $k=k+1$ y retomar el paso {\rm (2)}. }
+\end{algorithm}
+
+Aplicamos el pseudoc\'odigo \ref{codigo2} con la funci\'on $u(r,\theta)=r^{2/3}\sin((2\theta)/3) \text{ y } f=0 $ y comparando los resultados num\'ericos del error $e=\|u-u_{h}\|_{1}$ y $\eta_{\text{\tiny $R$}}$ obtenemos la figura \ref{fig:mode5}
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{mode5}
+	\caption{Representamos los resultados de las estrategia adaptativa y uniforme, grados de libertad vs el error y el estimador de error tipo residual.}
+	\label{fig:mode5}
+\end{figure}
+\newpage
+\begin{table}[h!]\label{table5}
+	\centering
+	\begin{tabular}{c | c| c| c| c|c } \hline
+		N  &  $e$	& $\eta_{\text{\tiny $R$}}$  &	$\theta=\eta_{\text{\tiny $R$}}/e$	& $\theta_{1}$	&  $\theta_{2}$ \\ \hline 
+		5  &	0,3088&	0,8369&	2,7105&		  &   \\
+		14 &	0,2215&	0,6362&	2,8726&	0,2664&	0,3228\\
+		23 &	0,1789&	0,5146&	3,2259&	0,2010&	0,3457\\
+		38 &	0,1346&	0,4503&	3,3454&	0,7767&	0,9914\\
+		57 &	0,1138&	0,3977&	3,4958&	0,3064&	0,4141\\
+		70 &	0,1006&	0,3436&	3,4166&	0,7118&	0,6002\\
+		79 &	0,0954&	0,3350&	3,5121&	0,2096&	0,4388\\
+		93 &	0,0886&	0,3132&	3,5369&	0,4125&	0,4533\\
+		127&	0,0778&	0,2784&	3,5809&	0,3781&	0,4172\\
+		165&	0,0699&	0,2500&	3,5779&	0,4111&	0,4091\\
+		171&	0,0683&	0,2443&	3,5820&	0,6458&	0,6483\\
+		209&	0,0614&	0,2218&	3,6124&	0,4815&	0,5308\\
+		229&	0,0590&	0,2120&	3,5979&	0,4945&	0,4363\\
+		254&	0,0555&	0,2025&	3,6493&	0,4425&	0,5903\\
+		299&	0,0512&	0,1857&	3,6301&	0,5310&	0,4945\\
+		340&	0,0480&	0,1750&	3,6477&	0,4619&	0,5023\\
+		360&	0,0467&	0,1701&	3,6456&	0,4969&	0,4804\\
+		424&	0,0430&	0,1572&	3,6563&	0,4820&	0,5045\\\hline
+	\end{tabular} \\
+	\caption{Error, estimador residual, \'indice de efectividad y tasas de convergencia, con par\'ametro $\xi=0.9$. }
+\end{table}
+
+
+Analicemos la figura \ref{fig:mode5}, primeramente observemos el $\eta_{\text{\tiny $R$}}$ obtenido por las estrategias de refinamiento  uniforme y adaptativa, si nos centramos en la parte inferior de la gr\'afica entre el intervalo de $10$ y $50$ nodos, podemos ver que la estrategia adaptativa esta siendo muy similar a la  estrategia uniforme, es decir necesitan casi la misma cantidad de grados de libertad, mientras que en el intervalo de $50$  y $3000$ grados de libertad se comienza a notar una gran diferencia entre ambas estrategias, ya que la estrategia adaptativa esta necesitando una cantidad de grados de libertad muy peque\~na en comparaci\'on con la estrategia uniforme, observando los cuadros {\rm 3.2} y {\rm 3.3} con 424 grados de libertad o nodos libres la estrategia adaptativa da un $\eta_{\text{\tiny $R$}}$  significativamente pr\'oximo a 0.1572 y la estrategia uniforme necesita 2945 grados de libertad para alcanzar un valor muy significativamente pr\'oximo a $0.1572$, lo que va dejando gran evidencia, de que la estrategia adaptativa es m\'as eficiente para estimar el valor de $\eta_{\text{\tiny  $R$}}$. Ahora fijemos la mirada en el error obtenido por las estrategias adaptativa y uniforme, a simple vista las estrategias comienzan muy similares, pero a medida que se va refinando, la estrategia adaptativa muestra una mayor eficiencia. 
+De la tabla {\rm 3.3} en las columnas correspondientes al valor de $e$ y $\eta_{\text{\tiny  $R$}}$ se evidencia num\'ericamente que el estimador residual es paralelo al  error $e$, mostrando un coeficiente de efectividad creciente en cada refinamiento, es decir se evidencia la constante $c$ del Teorema \ref{teoremadelgrado}, por cual podemos afirmar que num\'ericamente se cumple el Teorema \ref{teoremadelgrado}.
+\newpage
+
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{c c}
+			\includegraphics[width =8.5cm]{eta0.9mode5_2}
+			&\includegraphics[width =8.5cm]{eta0.9mode5_4}\\
+			{\rm (i)}$N$=5  & {\rm (ii)} $N$=23
+		\end{tabular}
+	\end{center}
+	\begin{center}
+		\begin{tabular}{c c}
+			\includegraphics[width =8.5cm]{eta0.9mode5_6}
+			&\includegraphics[width =8.5cm]{eta0.9mode5_8} \\
+			{\rm (i)} $N$=57 & {\rm (ii)} $N$=79
+		\end{tabular}
+		\caption{Secuencia de refinamiento adaptativo}
+	\end{center}
+\end{table}
+
+En las secuencias anteriores podemos notar la selecci\'on de los elementos a refinar donde $\eta_{R,T}>\xi\cdot \eta_{max}$, de {\rm (i)}  a {\rm (ii)} se pasa de 18 a 58 elementos, de {\rm (ii)}  a {\rm (iii)}  se pasa de 58 a 96 elementos y de {\rm (iii)}  a {\rm (iv)} se pasa de 96 a 166 elementos acerc\'andose cada vez mas a la singularidad de la funci\'on $u(r,\theta)$.
+
+
