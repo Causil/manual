@@ -5,6 +5,11 @@
 \usepackage{mathrsfs}
 \usepackage[dvips]{graphicx}
 \usepackage{color}
+\usepackage{pdfpages}
+
+
+\definecolor{bluedistri}{RGB}{59, 160, 242}
+\definecolor{orangedistri}{RGB}{250, 112, 56}
 \usepackage{tikz}
 \usepackage{pstricks}
 \usepackage{pifont}
@@ -173,13 +178,13 @@
 
 
 \include{titulo}
-
+\includepdf[pages=-]{imagenes/DistrifullLogo}
 \pagenumbering{roman}
 \frontmatter
 \tableofcontents
 \listoffigures
-\listoftables
-%\include{resumen}
+%\listoftables
+\include{resumen}
 \include{intro}
 %\include{AGRADECIMIENTOS}
 
@@ -187,14 +192,5 @@
 \mainmatter
 \include{cap1}
 %\include{cap2}
-\addcontentsline{toc}{chapter}{\numberline{}Bibliografía}
-\begin{thebibliography}{99}
-	\bibitem{Brenner2008} S.C. Brenner, L.R. Scott
-	{\it The Mathematical Theory of Finite Element Methods}, $3^{\text{a}}$ ed., USA: Springer, 2008.
-	\bibitem{Dietrich2007} D. Braess, {\it FINITE ELEMENTS Theory, Fast Solvers, and Applications in Elasticity Theory}, $3^{\text{a}}$ ed., USA: Cambridge University Press, 2007.
-	\bibitem{Brezis} H. Brezis, {\it Functional analysis, Sobolev spaces and partial differential equations}, New York: Springer, 2011.	
-	\bibitem{Gockenbach2006} M.S. Gockenbach, {\it Understanding and implementing the finite element method}, Philadelphia, PA: Society for Industrial and Applied Mathematics (SIAM), 2006.
-	\bibitem{Ciarlet1978} P. G. Ciarlet, {\it The finite element method for elliptic problems}, Amsterdam - New York - Oxford: North-Holland Publishing Company, 1978.
-	\bibitem{Rudiger2013} R. Verf\"urth, {\it A posteriori error estimation techniques for finite element methods}, Oxford: Oxford University Press, 2013.
-\end{thebibliography}
+%\addcontentsline{toc}{chapter}{\numberline{}Bibliografía}
 \end{document}

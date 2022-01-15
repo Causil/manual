@@ -1,3 +1,9 @@
 \babel@toc {spanish}{}
-\contentsline {section}{\numberline {0.1}Parte interna para los usuarios}{3}{section.0.1}%
-\contentsline {chapter}{\hbox to\@tempdima {\hfil }Bibliograf\IeC {\'\i }a}{9}{figure.0.12}%
+\contentsline {chapter}{Introducci\'on}{iv}{chapter*.3}%
+\contentsline {chapter}{\numberline {1}Manual de usuario}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Objetivo}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Vista principal}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Registro}{2}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Inicio de sesi\'on}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Cerrar sesi\'on}{9}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Cambio de idioma}{10}{subsection.1.2.4}%
