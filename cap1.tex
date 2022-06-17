@@ -1,170 +1,293 @@
-\chapter{Manual de usuario}
-\section{Objetivo}
-El objetivo de este manual es proporcionar los pasos precisos para hacer uso del aplicativo web de Distrifull. 
+\part{Mi pc}
 
-\section{Vista principal}
-Una vez que el usuario ingrese a la direcci\'on de la p\'agina web de Distrifull, observa la siguiente vista:
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.9\linewidth, height=0.3\textheight]{imagenes/inicioOne}
-	\caption[Primera parte del inicio.]{Vista principal}
-	\label{fig:inicioone}
-\end{figure}
+La inspiraci\'on no se puede provocar pero se puede estimular realizando tareas simples, antes de cometer otras mas complejas en cualquier caso es un fen\'omeno instintivamente humano y distinto para cada persona.
+\chapter{Instalando programas en mi pc}
+\section{Terminal}
+Para instalar node ejecuto el comando 
+\begin{verbatim}
+	sudo apt-get install nodejs
+\end{verbatim}
+Este node es el ultimo estable que se encuentra en los repositorios de Ubuntu, pero descargar la ultima versi\'on ejecutando los siguientes comandos:
 
-Esta secci\'on encontramos en la parte superior izquierda el logo de la empresa y en la parte derecha encontramos acceso directo a las secciones visibles a todo tipo de usuario, entre ellas tenemos:
-\begin{description}
-	\item[ ?`Qui\'enes somos?: ] este bot\'on  nos lleva a la secci\'on donde encontramos una breve explicaci\'on sobre la empresa.
-	\item[Aceite digital: ] este bot\'on nos lleva a una secci\'on donde encontramos productos de la empresa.
-	\item[Iniciar sesi\'on y registrarse: ] este bot\'on nos lleva a la p\'agina de inicio de sesi\'on o la p\'agina de registro.
-	\item[Idioma: ] en este bot\'on podemos cambiar el idioma, en este caso tenemos el espa\~nol y el ingl\'es. 
-\end{description}
-%\newpage
-\subsection{Registro}
-Para registrarnos en la p\'agina web desde la p\'agina principal mostrada en la figura \ref{fig:inicioone} presionamos el bot\'on registrarse y nos env\'ia a la siguiente p\'agina
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.4\textheight]{imagenes/registro}
-	\caption[Registro.]{Registro}
-	\label{fig:inicioThree}
-\end{figure}
+\begin{verbatim}
+	javier@javier-Lenovo-G40-80:~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+	
+	
+	javier@javier-Lenovo-G40-80:~$ source ~/.bashrc
+	
+	javier@javier-Lenovo-G40-80:~$ nvm list-remote
+	
+	javier@javier-Lenovo-G40-80:~$ nvm install v16.15.0
+	
+	javier@javier-Lenovo-G40-80:~$ sudo apt-get install npm
+	
+	
+\end{verbatim}
 
-Para realizar el registro en el aplicativo web, debemos llenar los siguientes campos: 
-\begin{description}
-	\item[Nombre y apellidos:] ingresar su nombre y apellidos para tener una experiencia personalizada en el sistema.
-	\item[Nombre de usuario:] ingresar el nombre con que quiere ser identificado dentro de la plataforma.
-	\item[Correo electr\'onico:] ingrese un correo electr\'onico al que tenga acceso, con este iniciara sesi\'on en la plataforma.
-	\item[Contrase\~na:] elija una contrase\~na e ingr\'esela y tenga presente que debe recordarla para iniciar sesi\'on en la plataforma.
-\end{description}
-Una vez hemos culminado de llenar los campos, presionamos el bot\'on ``\textcolor{bluedistri}{CREAR CUENTA}'', apenas demos aceptar al mensaje de alerta, podemos presionar el bot\'on \textcolor{orangedistri}{iniciar sesi\'on} y accedemos a la parte interna de la p\'agina web.
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.4\textheight]{imagenes/mensajeDeRegistro}
-	\caption[Mensaje de registro.]{Mensaje de confirmaci\'on de registro.}
-	\label{fig:mensajederegistro}
-\end{figure}
+La versi\'on es la necesaria. esa la encontramos en la pagina de nodejs.
 
-\subsection{Inicio de sesi\'on}
+Figma: 
+\begin{verbatim}
+	javier@javier-Lenovo-G40-80:~$ sudo snap install figma-linux
+\end{verbatim}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.8\linewidth, height=0.2\textheight]{imagenes/inicioOneTE.png}
-	\caption[Primera parte del inicio.]{Bot\'on p\'agina de inicio de sesi\'on}
-	\label{fig:inicioonet}
-\end{figure}
-Al presionar el bot\'on \textcolor{orangedistri}{{\bf iniciar sesi\'on}}, nos env\'ia a la siguiente p\'agina:
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.9\linewidth, height=0.3\textheight]{imagenes/inicioSe}
-	\caption[Inicio de sesi\'on.]{Inicio de sesi\'on.}
-	\label{fig:iniciosesion}
-\end{figure}
-\newpage
-Al ingresar los datos requeridos en cada campo, los cuales son: 
-\begin{description}
-	\item[Correo: ] En este campo ingresamos el correo con el cual hicimos el registro en la p\'agina Web.
-	\item[Contrase\~na: ] En este campo ingresamos con la contrase\~na elegida al momento de realizar el registro en la plataforma.
-\end{description}
-Una vez tengamos todos los campos llenos, presionamos el bot\'on \textcolor{bluedistri}{{\bf\rm ENTRAR}}, si los datos son incorrectos el sistema no permite el ingreso y lanzara una alerta. Si son correctos, la 
-vista que aparecer\'a depender\'a del tipo de usuario que seas, en este caso existen dos tipos de usuarios, el administrador y el no administrador.
+git: 
+\begin{verbatim}
+	sudo add-apt-repository ppa:git-core/ppa 
+	
+	sudo apt update 
+	
+	sudo apt install git
+\end{verbatim}
+\begin{verbatim}
+	javier@javier-Lenovo-G40-80:~$ sudo apt-get update
+	Obj:1 http://co.archive.ubuntu.com/ubuntu jammy InRelease
+	Obj:2 http://co.archive.ubuntu.com/ubuntu jammy-updates InRelease
+	Obj:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+	Obj:4 http://co.archive.ubuntu.com/ubuntu jammy-backports InRelease
+	Leyendo lista de paquetes... Hecho
+	javier@javier-Lenovo-G40-80:~$ python3
+	
+	javier@javier-Lenovo-G40-80:~$ sudo apt-get update
+	Obj:1 http://co.archive.ubuntu.com/ubuntu jammy InRelease
+	Des:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+	Des:3 http://co.archive.ubuntu.com/ubuntu jammy-updates InRelease [109 kB]
+	Obj:4 http://co.archive.ubuntu.com/ubuntu jammy-backports InRelease	
+\end{verbatim}
 
-Vista como administrador figura \ref{fig:dashboardInicio}: 
+Intalando MySQl 
+
+\begin{verbatim}
+	https://dev.to/gsudarshan/how-to-install-mysql-and-workbench-on-ubuntu-20-04-localhost-5828 
+	
+	https://dev.mysql.com/downloads/file/?id=509020 
+	
+	https://ubuntu.com/server/docs/databases-mysql
+\end{verbatim}
 
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.45\textheight]{imagenes/dashboardInicio}
-	\caption[Dashboard equipo.]{Dashboard equipo}
-	\label{fig:dashboardInicio}
-\end{figure}
+\section{Programas instalados desde software Ubuntu}
+Texstudio, vscode, Mysql Workbench Community
 
-En la parte izquierda encontramos un men\'u deslizable, en la parte central encontramos la informaci\'on proporcionada por los sensores, la gr\'afica titulada {\bf Niveles de ocupaci\'on de equipos} proporciona informaci\'on sobre la capacidad del l\'iquido que tiene el tanque, la siguiente gr\'afica titulada {\bf Volumen por equipo} muestra la cantidad de l\'iquido que tiene el equipo por cierta cantidad de tiempo (cada 30 segundos), la tabla nos proporciona una parte de la informaci\'on captada por el sensor, que son fecha, hora producto, batch no (lote) y el inventario del tanque, finaliza con un \textcolor{orangedistri}{Resumen} que contiene el costo general y la capacidad de producci\'on del tanque.
-\newpage
-Vista sensores figura \ref{fig:dashboardSensores}: 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.4\textheight]{imagenes/dashboardSensores}
-	\caption[Dashboard sensores.]{Dashboard sensores}
-	\label{fig:dashboardSensores}
-\end{figure}
+\part{Python}
 
-En esta p\'agina obtenemos: 
-\begin{description}
-	\item[Volumen tanque mezclado: ] indica la cantidad de producto en galones que tiene el equipo o tanque.
-	\item[Estado del mezclador: ] indica si el l\'iquido est\'a en proceso de mezclado.
-	\item[Estado motobomba: ] tiene tres estados, llenado nos indica que el tanque est\'a recibiendo producto, vaciado nos garantiza que el tanque est\'a evacuando producto y estable hace referencia a que se mantiene una misma cantidad de producto, es decir no sufre ning\'un cambio de volumen.
-	\item[Activaci\'on motobomba: ] confirma si la moto bomba asociada al tanque est\'a encendida o apagada.
-	\item[Nivel bater\'ia loraWan: ] este indicador nos permite darle seguimiento al estado de la bater\'ia, cuenta con dos estados ``Bater\'ia estable'' y ``Bater\'ia inestable''. 
-	\item[Medida lineal sensor: ] indica la distancia entre el sensor y el producto en el tanque o equipo.
-	\item[Activaci\'on mezclador: ] este indicador confirma si el producto o el l\'iquido en el equipo est\'a siendo mezclado, cuenta con dos estados ``APAGADO'' y ``ENCENDIDO''.
-\end{description}
-\newpage
-Nuevos datos: 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.4\textheight]{imagenes/dashboardEstadistica}
-	\caption[Dashboard nuevos datos.]{Dashboard nuevos datos}
-	\label{fig:dashboardEstadistica}
-\end{figure}
+\chapter{Numpy}
 
-En esta vista podemos actualizar el costo por gal\'on y su respectivo lote, para hacer este cambio solo llenamos el formulario que tiene los siguientes campos: 
-\begin{enumerate}[{\rm 1.}]
-	\item Fecha de lote.
-	\item Lote.
-	\item Costo unitario.
-	\item Nombre del tanque.
-\end{enumerate}
+\section{Dimensiones en matrices}
 
-Para finalizar el proceso presionamos el bot\'on ``\textcolor{bluedistri}{Agregar tanque}''.
+\subsection{0-D Arrays}
+0-D arrays, or scalars, are the elements in a array. Each value in an array is a 0-D array.
 
-En el campo ``Elija lote y costo'' tenemos un historial donde encontramos los diferentes costos que hemos ingresado, al presionar el bot\'on ``\textcolor{bluedistri}{Cambiar}'' se actualiza la informaci\'on de costo unitario, costo general y lote en la p\'agina equipos.
-\newpage
-{\bf Vista como no administrador}:
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.4\textheight]{imagenes/dashboardNoAdmi}
-	\caption[Dashboard no admi.]{Dashboard no administrador}
-	\label{fig:registro}
-\end{figure}
-
-En la vista como no administrador, encontramos la informaci\'on proporcionada por el sensor, la cual reflejamos en la tabla de la figura \ref{fig:registro}, que tiene las siguientes columnas: 
-
-\begin{description}
-	\item[Distancia liquido sensor: ] nos indica la distancia que hay entre el sensor y el l\'iquido contenido en el tanque.
-	\item[Altura del l\'iquido: ] la altura desde el inicio del tanque hasta donde llega el l\'iquido contenido en el tanque.
-	\item[Volumen liquido: ] nos confirma la cantidad de l\'iquido en galones contenidos en el tanque.
-	\item[Fecha llegada BD: ] indica la fecha en que la informaci\'on es proporcionada a la base de datos que almacena la informaci\'on del sensor. 
-	\item[Hora llegada BD: ] indica la hora en que la informaci\'on es proporcionada a la base de datos que almacena la informaci\'on del sensor.
-	\item[Fecha llegada del TTS: ] 
-	\item[Hora llegada TTS: ]
-	\item[Fecha llegada Gateway: ] 
-	\item[Hora llegada Gateway: ]
-	\item[Fecha envioSensor: ]
-	\item[Hora envio sensor: ]
-	\item[Estado bater\'ia: ]
-\end{description}
+\begin{verbatim}
+	import numpy as np
+	
+	arr = np.array(42)
+	
+	print(arr) 
+	
+	ouput()
+			42
+\end{verbatim}
 
 
-Las otras dos vistas que son sensores y nuevos datos, se mantienen igual a las vistas del usuario administrador. 
+\subsection{1-D Arrays}
+An array that has 0-D arrays as its elements is called uni-dimensional or 1-D array.
 
-%\newpage
-\subsection{Cerrar sesi\'on}
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.3\textheight]{imagenes/cerrarSesion}
-	\caption[Cerrar sesi\'on.]{Cerrar sesi\'on}
-	\label{fig:cerarsesion}
-\end{figure}
+\begin{verbatim}
+Example
 
-Para cerrar sesi\'on presionamos en el bot\'on que tiene el aspecto de tres puntos verticales, ubicado al lado del avatar del usuario, una vez lo presionamos nos aparece la opci\'on de \textcolor{bluedistri}{cerrar sesi\'on}, seleccionamos esta opci\'on y esto finaliza la sesi\'on y nos redirige a la p\'agina principal.
-\newpage
-\subsection{Cambio de idioma}
+Create a 1-D array containing the values 1,2,3,4,5:
+import numpy as np
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=1\linewidth, height=0.3\textheight]{imagenes/inicioOneIdioma}
-	\caption[\'Area principal.]{}
-	\label{fig:iniciooneidioma}
-\end{figure}
+arr = np.array([1, 2, 3, 4, 5])
 
-El aplicativo web de Distrifull cuenta con dos idiomas, espa\~nol e ingl\'es, para cambiar el idioma de la plataforma seleccionamos el bot\'on {\bf espa\~nol} y nos aparecen las opciones para elegir el idioma, una vez seleccionemos una opci\'on, el cambio de idioma se realiza instant\'aneamente.
+print(arr) 
+print(type(arr)) 
+output()
+   [1 2 3 4 5]
+   <class 'numpy.ndarray'>
+\end{verbatim}
+No confundir con una lista de Python son totalmente diferentes.
+
+
+\subsection{2-D Arrays}
+An array that has 1-D arrays as its elements is called a 2-D array.
+
+These are often used to represent matrix or 2nd order tensors.
+
+NumPy has a whole sub module dedicated towards matrix operations called numpy.mat
+
+\begin{verbatim}
+Example
+
+Create a 2-D array containing two arrays with the values 1,2,3 and 4,5,6:
+import numpy as np
+
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+
+print(arr) 
+\end{verbatim}
+
+
+
+
+\subsection{3-D Arrays}
+An array that has 2-D arrays (matrices) as its elements is called 3-D array.
+
+These are often used to represent a 3rd order tensor.
+
+\begin{verbatim}
+Example
+
+Create a 3-D array with two 2-D arrays, both containing two arrays with the values 1,2,3 and 4,5,6:
+import numpy as np
+
+arr = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
+
+print(arr) 
+
+output()
+[ [
+  [1 2 3]
+  [4 5 6]
+  ]
+  [
+  [1 2 3]
+  [4 5 6]
+  ]
+]
+\end{verbatim}
+
+
+Check Number of Dimensions?
+
+NumPy Arrays provides the ndim attribute that returns an integer that tells us how many dimensions the array have.
+
+
+\begin{verbatim}
+	Example
+	
+	Check how many dimensions the arrays have:
+	import numpy as np
+	
+	a = np.array(42)
+	b = np.array([1, 2, 3, 4, 5])
+	c = np.array([[1, 2, 3], [4, 5, 6]])
+	d = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
+	
+	print(a.ndim)
+	print(b.ndim)
+	print(c.ndim)
+	print(d.ndim) 
+	output()
+	0
+	1
+	2
+	3
+\end{verbatim}
+
+Higher Dimensional Arrays
+
+An array can have any number of dimensions.
+
+When the array is created, you can define the number of dimensions by using the ndmin argument.
+
+\begin{verbatim}
+	Example
+	
+	Create an array with 5 dimensions and verify that it has 5 dimensions:
+	import numpy as np
+	
+	arr = np.array([1, 2, 3, 4], ndmin=5)
+	
+	print(arr)
+	print('number of dimensions :', arr.ndim) 
+	
+	output()
+	[[[[[1 2 3 4]]]]]
+	number of dimensions : 5
+\end{verbatim}
+In this array the innermost dimension (5th dim) has 4 elements, the 4th dim has 1 element that is the vector, the 3rd dim has 1 element that is the matrix with the vector, the 2nd dim has 1 element that is 3D array and 1st dim has 1 element that is a 4D array.
+
+\section{Numpy data types}
+
+Data Types in Python
+
+By default Python have these data types:
+
+strings - used to represent text data, the text is given under quote marks. e.g. ``ABCD''
+
+
+integer - used to represent integer numbers. e.g. -1, -2, -3
+
+float - used to represent real numbers. e.g. 1.2, 42.42
+
+boolean - used to represent True or False.
+
+complex - used to represent complex numbers. e.g. 1.0 + 2.0j, 1.5 + 2.5j
+
+Data Types in NumPy
+
+NumPy has some extra data types, and refer to data types with one character, like i for integers, u for unsigned integers etc.
+
+Below is a list of all data types in NumPy and the characters used to represent them.
+
+i - integer\\
+b - boolean\\
+u - unsigned integer\\
+f - float\\
+c - complex float\\
+m - timedelta\\
+M - datetime\\
+O - object\\
+S - string\\
+U - unicode string\\
+V - fixed chunk of memory for other type ( void )\\
+
+
+Shape of an Array
+
+The shape of an array is the number of elements in each dimension.
+
+Get the Shape of an Array
+
+NumPy arrays have an attribute called shape that returns a tuple with each index having the number of corresponding elements.
+
+The shape arrays is return tupla where, first element is 
+
+L aforma de un arreglo 
+
+
+Estudiando de 
+\url{https://www.w3schools.com/python/numpy/numpy_array_join.asp} y python para Data Science
+\part{Lenguajes del frontend}
+
+\chapter{Figma}
+
+\chapter{JavaScript}
+
+
+Funciones de Flecha, 
+
+ES5 //JSON.parse(JSON.stringify(paddockType));
+
+\chapter{Typescript}
+
+\chapter{Next.js}
+
+El objetivo de aprender este lenguaje es darle asistencia a la p\'agina de As-research, junto con el blog. 
+
+Me estare guiando de \url{https://nextjs.org/docs/getting-started}
+
+Foro de discusiones: \url{https://github.com/vercel/next.js/discussions}
+
+Requerimientos del sistema: 
+
+Node.js 12.22.0 or later\\
+MacOS, Windows (including WSL), and Linux are supported
+
+
+C\'omo iniciar un proyecto?
+
+
+
