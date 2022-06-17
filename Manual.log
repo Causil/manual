@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.5.13)  17 JUN 2022 11:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.5.13)  17 JUN 2022 16:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1351,55 +1351,58 @@ Cap\'{\i }tulo 9.
 ] [28
 
 ]
+Cap\'{\i }tulo 10.
+[29
 
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 34.
+]
+Cap\'{\i }tulo 11.
+[30
 
-
-Overfull \hbox (303.16559pt too wide) in paragraph at lines 73--73
+]
+Overfull \hbox (303.16559pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 like Google sky and Tesla Sony and more I cannae jeers of
  teaching experience in countries like USA and Japan he are Kobe of interesting
 [] 
  []
 
 
-Overfull \hbox (314.48233pt too wide) in paragraph at lines 73--73
+Overfull \hbox (314.48233pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 facts about me I had visits of the seeds Disneyland aroun
 d the world this is me at Star Wars Galaxy Edge in Anaheim California also I ha
 ve[] 
  []
 
 
-Overfull \hbox (280.5321pt too wide) in paragraph at lines 73--73
+Overfull \hbox (280.5321pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 massive degree in teaching t so that means can teach t-sh
 irts in Learners like you in this course you will learn the alphabet I'm on[] 
  []
 
 
-Overfull \hbox (252.24025pt too wide) in paragraph at lines 73--73
+Overfull \hbox (252.24025pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 sentence with it's pure Air Force sentence with there are
  numbers caller surgeon pronounce profession where teens interrogative[] 
  []
 
 
-Overfull \hbox (257.89862pt too wide) in paragraph at lines 73--73
+Overfull \hbox (257.89862pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 status. Osiria Jetties days of the weave your hobbies que
 stion with what you ain't to review everything from this course we wait[] 
  []
 
 
-Overfull \hbox (240.92351pt too wide) in paragraph at lines 73--73
+Overfull \hbox (240.92351pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 we all have to grab a glass of the course Concepts world 
 war ships find a wall sheets in the results section throw in charity[] 
  []
 
 
-Overfull \hbox (223.9484pt too wide) in paragraph at lines 73--73
+Overfull \hbox (223.9484pt too wide) in paragraph at lines 94--94
 [] \T1/cmtt/m/n/10.95 crisis and throw into righteous play Nations oh imagine a
  website called black English so we can make friends only are you[] 
  []
 
-[29]) [30] (./Manual.aux (./titulo.aux)
+[31]) [32] (./Manual.aux (./titulo.aux)
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
  (./resumen.aux) (./intro.aux)
@@ -1408,13 +1411,13 @@ LaTeX Info: Redefining \% on input line 29.
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `Manual.out' has not changed.
-(rerunfilecheck)             Checksum: AD71E2B9C327AE13633F186B802862EF;5011.
+(rerunfilecheck)             Checksum: D68DFA35FD0A30C9278E29446DEFC52A;5317.
  ) 
 Here is how much of TeX's memory you used:
- 28576 strings out of 478287
- 529411 string characters out of 5849289
- 832777 words of memory out of 5000000
- 46081 multiletter control sequences out of 15000+600000
+ 28583 strings out of 478287
+ 529486 string characters out of 5849289
+ 832782 words of memory out of 5000000
+ 46084 multiletter control sequences out of 15000+600000
  486266 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,10n,89p,1367b,711s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1433,10 +1436,10 @@ lic/cm-super/sfcc1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm109
 5.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/te
 xmf/fonts/type1/public/cm-super/sfsl1095.pfb></usr/share/texmf/fonts/type1/publ
 ic/cm-super/sftt1095.pfb>
-Output written on Manual.pdf (37 pages, 290515 bytes).
+Output written on Manual.pdf (39 pages, 297613 bytes).
 PDF statistics:
- 466 PDF objects out of 1000 (max. 8388607)
- 391 compressed objects within 4 object streams
- 91 named destinations out of 1000 (max. 500000)
- 277 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 485 PDF objects out of 1000 (max. 8388607)
+ 407 compressed objects within 5 object streams
+ 95 named destinations out of 1000 (max. 500000)
+ 293 words of extra memory for PDF output out of 10000 (max. 10000000)
 

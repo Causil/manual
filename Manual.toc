@@ -31,4 +31,6 @@
 \contentsline {part}{VI\hspace {1em}Matem\'aticas}{26}{part.6}%
 \contentsline {chapter}{\numberline {9}Ecuaciones diferenciales}{27}{chapter.9}%
 \contentsline {part}{VII\hspace {1em}Ingles}{28}{part.7}%
-\contentsline {section}{\numberline {9.1}Introduction}{29}{section.9.1}%
+\contentsline {chapter}{\numberline {10} Unknown words }{29}{chapter.10}%
+\contentsline {chapter}{\numberline {11}Ingl\'es A1}{30}{chapter.11}%
+\contentsline {section}{\numberline {11.1}An\'alisis de habilidades}{30}{section.11.1}%
