@@ -71,6 +71,21 @@ Texstudio, vscode, Mysql Workbench Community
 
 \part{Python}
 
+Ejecutar Jupyter dentro del entorno virtual, 
+
+\url{https://es.acervolima.com/uso-de-jupyter-notebook-en-un-entorno-virtual/}
+
+Una vez creado el entorno virtual ejecutamos 
+
+\begin{verbatim}
+	https://es.acervolima.com/uso-de-jupyter-notebook-en-un-entorno-virtual/
+\end{verbatim}
+abrimos el Jupyter Notebook y procedemos a cambiar el kernes en la opcion venv que es como se llamo nuestro kernel, de esta manera podemos acceder a todos los paquetes instalados en nuestro entorno virtual. Para desactivarlo procedemos a ejecutar el siguiente comando: 
+\begin{verbatim}
+	jupyter-kernelspec uninstall venv
+\end{verbatim}
+
+En si solo es cambiar la direcci\'on del kernel.
 \chapter{Numpy}
 
 \section{Dimensiones en matrices}
@@ -288,6 +303,25 @@ MacOS, Windows (including WSL), and Linux are supported
 
 
 C\'omo iniciar un proyecto?
+
+Para construir una aplicaci\'on web completa con React desde cero, hay muchos detalles importantes que tu necesitas considerar: 
+\begin{enumerate}
+	\item C\'odigo tiene que ser empaquetado usando un empaquetador como webpack y transformarlo utilizando un copilador como Babel.
+	\item Debes realizar optimizaciones de producci\'on, como la divisi\'on de c\'odigo.
+	\item Es posible que desee renderizar previamente est\'aticamente algunas p\'aginas para mejorar el rendimiento y el SEO. Tambi\'en es posible que desee utilizar la representaci\'on del lado del servidor o la representaci\'on del lado del cliente.
+	
+	
+	\item Es posible que deba escribir alg\'un c\'odigo del lado del servidor para conectar su aplicaci\'on React a su almac\'en de datos.
+\end{enumerate}
+\begin{verbatim}
+npx create-next-app nextjs-blog
+
+Para recorrer el servidor del proyecto es:
+
+npm run dev
+\end{verbatim}
+
+
 
 
 
