@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.5.13)  21 JUN 2022 09:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.5.13)  21 JUN 2022 10:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1287,13 +1287,13 @@ Cap\'{\i }tulo 2.
 [7
 
 ]
-Overfull \hbox (88.14749pt too wide) in paragraph at lines 172--172
+Overfull \hbox (88.14749pt too wide) in paragraph at lines 174--174
 []\T1/cmtt/m/n/10.95 Create a 3-D array with two 2-D arrays, both containing tw
 o arrays with the values 1,2,3 and 4,5,6:[] 
  []
 
 [8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 248--259
+Underfull \hbox (badness 10000) in paragraph at lines 250--261
 
  []
 
@@ -1408,7 +1408,11 @@ Overfull \hbox (223.9484pt too wide) in paragraph at lines 135--135
  website called black English so we can make friends only are you[] 
  []
 
-[34]) [35] (./Manual.aux (./titulo.aux)
+[34]) [35] [36
+
+
+
+] (./Manual.aux (./titulo.aux)
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
  (./resumen.aux) (./intro.aux)
@@ -1417,14 +1421,14 @@ LaTeX Info: Redefining \% on input line 29.
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `Manual.out' has not changed.
-(rerunfilecheck)             Checksum: F5E94B591D06B0A6F1F6FD858F6BAA2C;5457.
+(rerunfilecheck)             Checksum: EC8E32EF5179D03C483F6FB444C558F8;5568.
  ) 
 Here is how much of TeX's memory you used:
- 28592 strings out of 478287
- 529557 string characters out of 5849289
- 832783 words of memory out of 5000000
- 46085 multiletter control sequences out of 15000+600000
- 486266 words of font info for 69 fonts, out of 8000000 for 9000
+ 28607 strings out of 478287
+ 529749 string characters out of 5849289
+ 832884 words of memory out of 5000000
+ 46092 multiletter control sequences out of 15000+600000
+ 488485 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,10n,89p,1367b,750s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf/
@@ -1438,14 +1442,15 @@ texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/pu
 blic/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx20
 74.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/t
 exmf/fonts/type1/public/cm-super/sfcc1200.pfb></usr/share/texmf/fonts/type1/pub
-lic/cm-super/sfcc1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm109
-5.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/te
-xmf/fonts/type1/public/cm-super/sfsl1095.pfb></usr/share/texmf/fonts/type1/publ
-ic/cm-super/sftt1095.pfb>
-Output written on Manual.pdf (42 pages, 301703 bytes).
+lic/cm-super/sfcc1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm080
+0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/te
+xmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/publ
+ic/cm-super/sfsl1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095
+.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on Manual.pdf (43 pages, 329661 bytes).
 PDF statistics:
- 509 PDF objects out of 1000 (max. 8388607)
- 428 compressed objects within 5 object streams
- 103 named destinations out of 1000 (max. 500000)
- 301 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 537 PDF objects out of 1000 (max. 8388607)
+ 451 compressed objects within 5 object streams
+ 108 named destinations out of 1000 (max. 500000)
+ 309 words of extra memory for PDF output out of 10000 (max. 10000000)
 
