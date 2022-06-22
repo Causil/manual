@@ -1,7 +1,7 @@
 {
-  "name": "distrifull",
+  "name": "InfinityCafeEureca",
   "version": "1.0.0",
-  "description": "Manual de usuario de la pagina web",
+  "description": "Manual",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
