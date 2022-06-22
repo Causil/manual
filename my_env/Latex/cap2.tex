@@ -1,0 +1,305 @@
+\part{Bases de Datos}
+
+\chapter{MySQL}
+
+\section{Funciones de control de flujo}
+\begin{description}
+	\item[Case: ] Esta expresi\'on nos permite realizar la condici\'on y devolver el primer valor que cumpla con dicha condici\'on
+		\begin{ejemplo}
+			\begin{verbatim}
+				
+			Primer ejemplo
+			
+				select 
+					case 1
+					when 1 then 'uno'
+					when 2 then 'dos'
+					else 'otro n\'umero'
+					end as valor;
+					
+			segundo ejemplo:
+			
+				select idFactura, idProducto,
+				
+				case 
+					when cantidad > 2 then 'M\'as de dos productos vendidos'
+					when cantidad = 2 then 'Dos productos vendidos'
+					else 'Menos de dos productos vendidos'
+				end as cantidad
+				from detalle_factura;
+
+			Tercer ejemplo
+			
+			select nombre,
+			case
+				when email IS NULL then 'No tiene email registrado'
+				else 'email'
+			end as email,
+			pais
+			from cliente;
+			\end{verbatim}
+		Podemos ver que es una sentencia muy similar a switch de vuelve el primer caso que cumpla la condici\'on. 
+		\end{ejemplo}
+	\item[IF :] 
+	\begin{ejemplo}
+		\begin{verbatim}
+
+			Primer ejemplo
+			select if(1 < 2, true, false) as resultado;
+			
+			segundo ejemplo
+			
+			select 
+			idProducto,
+			if(cantidad > 1, cantidad*precioUnitario, precioUnitario) as total
+			from detalle_factura;
+			
+			Tercer ejemplo
+			
+			select
+			nombre,
+			if(fechaIngreso < '2016-12-31', concat(idEmpleado, '-16'),
+				if(fechaIngreso < '2017-12-31', concat(idEmpleado, '-17'),
+					if(fechaIngreso < '2018-12-31', concat(idEmpleado, '-18'),
+						concat(idEmpleado,'-19')
+					  )
+				   )
+			   ) as codigo
+			from empleado;
+			 
+		\end{verbatim}
+	\end{ejemplo}
+	\item[IFNULL y NULLIF:] IFNULL nos permite evaluar una primera expresi\'on, si esta expresi\'on es null, entonces devolver\'a el segundo valor pasado por par\'ametro y NULLIF : 
+	\begin{ejemplo}
+		\begin{verbatim}
+			
+			Primer ejemplo: 
+			
+			select ifnull(null, 'texto') as resultado;
+			
+			Segundo ejemplo: 
+			
+			En este ejemplo devuelve los contactos de la tabla cliente en la
+			columna nombre si tiene email nos da el email pero si este campo
+			es null nos devuelve el tel\'efono
+			
+			select nombre, ifnull(email, telefono) as contacto
+			from cliente;
+			
+			Tercer ejemplo: 
+			
+			select nombre,
+			ifnull( (select email from cliente where idCliente = '14'), 
+			'No tiene eamil registrado' )
+			as email 
+			from cliente
+			where idCliente = '14';
+			
+			select 
+			nullif(
+				(select precioUnitario from producto where idProducto = 1),
+				(select )
+			)
+		\end{verbatim}
+	\end{ejemplo}
+	
+	\item[NULLIF:]
+
+\end{description}
+
+\section{Subqueries}
+Es una declaraci\'on select en otra declaraci\'on, los subqueries devuelven datos de la consulta principal, los subqueries puede ser utilizados para agregar, actualizar, eliminar, enviar datos.
+
+\begin{ejemplo}
+	\begin{verbatim}
+		
+	 Ejemplo n\'umero 1: 
+	 Consiste en traer cuyos empleados tengan mayor salario al promedio: 
+	 
+	 select idEmpleado, nombre, salario
+	 from empleado
+	 where salario > (select avg(salario) from empleado);
+
+	Ejemplo 2: Seleccionamos los empleados que no pertenezcan al departamento general: 
+	
+	select nombre, apelllido, idDepartamento
+	from empleado
+	where idDepartamento NOT IN (select idDepartamento 
+	                             from departamento
+	                             where nombre like "%general%"
+	                              );
+	Ejemplo 3: facturas de los clientes que pertenezacan a Canada o Brasil:
+	
+	select idCliente, idFactura
+	from factura
+	where idCliente IN( select idCliente 
+						from cliente
+						where pais = 'canada' or pais = 'Brasil'
+						 );
+	
+	\end{verbatim}
+\end{ejemplo}
+
+
+Subconsultas: 
+
+\begin{ejemplo}
+	\begin{verbatim}
+		select *
+		from factura
+		where idCliente = (select idCliente form cliente where nombre = 'Jordi');
+		
+		select *
+		from producto 
+		where precioUnitario <= 
+		(select avg(precioUnitario) from producto where idCategoria = 5)
+		and idCategoria = 5;
+		
+		
+	\end{verbatim}
+\end{ejemplo}
+
+comparando subconsultas
+
+Subconsultas: 
+
+\begin{ejemplo}
+	\begin{verbatim}
+		
+		select idProducto, nombre
+		from producto
+		where idProducto = ANY (select idProducto from detalle_factura);
+		
+		
+	\end{verbatim}
+\end{ejemplo}
+
+\part{Ciencia de datos}
+
+
+?`Qu\'e es data ciencia?
+Es el proceso de descubrir informaci\'on valiosa de los datos.
+
+?`cu\'al es su finalidad?
+
+\begin{enumerate}
+	\item Tomar decisiones y crear estrategias de negocio. 
+	\item Crear productos de software m\'as inteligentes y funcionales.
+\end{enumerate}
+
+?`De que trata este proceso?: 
+\begin{enumerate}
+	\item Obtenci\'on de los datos: a trav\'ez de encuestas
+	\item Transformar y limpiar los datos.
+	\item Explorar, analizar y visualizar datos.
+	\item Usar modelos de machine learning*.
+	\item Integrar datos e IA a productos de software.
+\end{enumerate}
+
+
+
+
+?`Qu\'e es Data Science?
+
+Data science o ciencia de datos es el proceso de descubrir informaci\'on valiosa de los datos.
+
+?`Cu\'al es su finalidad?
+Tomar decisiones y crear estrategias de negocio
+Crear productos de software m\'as inteligentes y funcionales.
+
+?`De qu\'e trata este proceso?
+
+Obtenci\'on de los datos
+Mediciones
+Encuestas
+Internet
+
+Transformar y limpiar los datos
+Incompletos
+Formato Incorrecto
+
+Explorar, analizar y visualizar datos
+Patrones o tendencias
+Insights
+Visualizaciones, gr\'aficos o reportes
+
+Usar modelos de machine learning
+
+Machine learning o aprendizaje autom\'atico es una rama de inteligencia artificial. Su objetivo es que las computadoras aprendan. En machine learning, las computadoras observan grandes cantidades de datos y construyen un modelo capaz de generar predicciones para resolver problemas.
+
+Integrar datos e IA a productos de software
+Ponerlos a disposici\'on del usuario final.
+
+
+La ciencia de datos es una intercepci\'on de conocimiento entre (matem\'aticas y estad\'istica), (ciencias computacionales)  y conocimiento del dominio. 
+
+\section{Proyectos data Analysis}
+Poner en practica lo mas r\'apido que se pueda, tener proyectos personales, en que gasto los dineros del mes, que productos consigo cada mes, encontrar anomal\'ias, proyectos con kaggle.
+
+\chapter{An\'alisis de datos}
+
+?`Qu\'e es ciencia de datos y big data? ?`C\'omo afectan a mi negocio?
+
+``?`Qu\'e haces en tu trabajo (como cient\'ifico de datos)?
+Mi trabajo es crear una soluci\'on matem\'atica o estad\'istica para un problema del negocio''
+
+\section{?`Qu\'e tipo de informaci\'on podemos analizar?}
+
+
+Descubrir qu\'e tipos de informaci\'on existen, qu\'e industrias los usan y qu\'e tipo de acciones podemos tomar a partir de ellos.
+
+Los principales datos que existen son: 
+
+\begin{enumerate}
+	\item[Personas:] Este tipo de datos lo extraemos de las personas, es decir lo generamos nosotros cuando le damos like a una foto de facebook, de preferencia, tipo de videos, de quien te gusta mas el contenido, subiendo una foto y etiquetando a un compa\~nero.
+	\item[Transacciones:] las monetarias y las no monetarias, cualquier transaci\'on que hago con una tarjeta de cr\'edito o d\'ebito, cuando hacemos un pago electr\'onico o d\'igital  queda una huella, queda un registro de quien lo hizo, por que monto lo hizo y en que establecimiento lo hizo, es muy interesante por que las bancas digitales pueden hacerte recomendaciones sobre el tipo de comercio que te pod\'ia interesar.
+	
+	No finacieras: las compa\~nias telef\'onicas identifican cual es tu patr\'on habitual, cuantas llamadas haces, a que personas llamas, cuanto duran tus llamadas, y a partir de esto te llaman para que no abandones el servicio. 
+	
+	\item[Navegaci\'on web: ] Estas son las famosas cookies, ellas est\'an advirtiendo de la informaci\'on que van a recoger.
+	
+	\item[Machine 2 machine: ] Una conexion de una maquina a otra maquina, la usan las plataformas de transporte, google maps y para hacer la locaci\'on entre dispositivos.
+	
+	\item[Biom\'etricos: ] Cada vez son mas habituales y \'unicas, huellas digitales, reconocimiento facial. 
+
+\end{enumerate}
+
+\section{Flujo de trabajo en ciencia de datos: fases, roles y oportunidades laborales} 
+
+Roles en datos: 
+
+\begin{description}
+	\item[Ingeniero de datos: ] crear bases de datos  Hacer que la empresa, hace la conexion de los dispositivos y las bases de datos,
+	
+	\item[Analista business intelligence: ] A partir de la informaci\'on que ha creado el ingeniero de datos va extraer la data, crear cuadros de control, crear dashboard, monitoreo, va automatizar estos procedimientos para que cualquier persona de la empresa pueda interpretarla, las herramientas mas utilizadas son SQL y Excel. No necesariamente sabe Python.
+	
+	\item[Data Scientist: ] Sabe hacer el rol del analista, sabe extraer la informaci\'on y sabe predecir, con las herramientas de estad\'istica, nos gu\'ia a donde vamos. 
+	
+	\item[Data Translator: ] Nos ayuda a proyectar el equipo, nos ayuda a comunicar con los otros equipos del negocio. 
+	
+	
+\end{description}
+
+\section{Herramientas para cada etapa del an\'alisis de datos}
+
+El primero es el rol del analista y del ingeniero estas son las personas que crean bases de datos y utilizan SQL, se sintetiza la informaci\'on de la base de datos. 
+
+El cient\'ifico de datos son herramientas predictivas, son R y Python, R es mas estad\'istico an\'alisis descriptivo, 
+
+\section{Python en ciencia de Datos}
+
+Por que numpy para el análisis de datos. Tenemos tres cosas a destacar 
+\begin{enumerate}
+	\item Un poderoso objeto array multidimensional.
+	\item Funciones matem
+\end{enumerate}
+
+Crear un virtual environments ejecutamos la siguiente linea de comando
+
+\begin{verbatim}
+	python3 -m venv my_env
+	source bin/activate
+\end{verbatim}
+
+
+
