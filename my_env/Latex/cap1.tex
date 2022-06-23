@@ -455,9 +455,7 @@ ES5 //JSON.parse(JSON.stringify(paddockType));
 
 \chapter{Next.js}
 
-El objetivo de aprender este lenguaje es darle asistencia a la p\'agina de As-research, junto con el blog. 
-
-Me estare guiando de \url{https://nextjs.org/docs/getting-started}
+El objetivo de aprender este lenguaje es darle asistencia a la p\'agina de As-research, junto con el blog, para esto estar\'e aprendiendo con fuentes de \cite{NextJsCurso}, para crear mis notas de Next.js. 
 
 Foro de discusiones: \url{https://github.com/vercel/next.js/discussions}
 
@@ -486,7 +484,74 @@ Para recorrer el servidor del proyecto es:
 npm run dev
 \end{verbatim}
 
+\section{Navegando entre p\'aginas}
 
+\subsection{P\'aginas en Next.js}
+En Next.js, una pagina es un componente de React exportado desde un archivo en el directorio ``pages''.
 
+Las pages son asociadas con una ruta basada en el nombre del archivo. Por ejemplo, en desarrollo:
+\begin{enumerate}
+	\item ``pages/index.js'' es asociado con la ruta ``/''.
+	\item ``pages/post/first-post.js'' es asociado con la ruta ``/posts/first-post''.
+\end{enumerate}
 
+\subsection{Crea una nueva p\'agina}
+Crea el directorio ``posts'' en la carpeta ``pages''.
+
+Crea un archivo llamado ``first-post.js'' dentro del directorio ``posts'' con el siguiente contenido: 
+\begin{verbatim}
+	export default function FirstPost() {
+		return <h1>First Post</h1>;
+	}
+\end{verbatim}
+La componente pude tener cualquier nombre, pero debes exportar esto como un export ``default''.
+
+Si corres el servidor de la aplicaci\'on te dar\'as cuenta del cambio. 
+\subsection{Componente Link}
+
+Al enlazar entre p\'aginas en sitios web, utilizamos la etiqueta de HTML ``<a>'' . 
+
+En Next.js, utilizaremos la componente ``Link'' de ``next/link'' para envolver la etiqueta ``<a>''. ``<Link>'' permite realizar navegaci\'on del lado del cliente en las diferentes paginas de la aplicaci\'on. 
+
+\subsection{Usando ``<Link>''}
+Primero, abrimos ``pages/index.js'', e importamos la componente ``Link'' de ``next/link'' agregando est\'a linea en la parte superior: 
+\begin{verbatim}
+	import Link from 'next/link';
+\end{verbatim}
+
+Utilidad: 
+
+\begin{verbatim}
+	<h1 className="title">
+	Read{' '}
+		<Link href="/posts/first-post">
+			<a>this page!</a>
+		</Link>
+	</h1>
+\end{verbatim}
+
+As\'i nuestra componente ``pages/posts/first-post.js'' que dar\'ia de la siguiente manera: 
+
+\begin{verbatim}
+	import Link from 'next/link';
+	
+	export default function FirstPost() {
+		return (
+		<>
+		<h1>First Post</h1>
+		<h2>
+		<Link href="/">
+		<a>Back to home</a>
+		</Link>
+		</h2>
+		</>
+		);
+	}
+\end{verbatim}
+
+atributos de la componente link son href.
+
+\subsection{Navegaci\'on del lado del cliente}
+
+La componente ``Link'' permite en client-side navegar entre dos p\'aginas en la misma app de Next.js 
 
